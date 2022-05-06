@@ -40,5 +40,6 @@ public class Profile extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.pack();
+        
     }
 }

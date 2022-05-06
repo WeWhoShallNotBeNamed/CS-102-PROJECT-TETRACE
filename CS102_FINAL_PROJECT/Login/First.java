@@ -1,18 +1,24 @@
 package Login;
 
-
-
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.print.attribute.standard.Media;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,6 +35,7 @@ public class First {
     JPanel signup_panel;
     CardLayout cl;
     public First() throws IOException{
+        playMusic("/Users/eslimranaemiroglu/Desktop/theme.au");
         frame=new JFrame("welcome page");
         Dimension d=Toolkit. getDefaultToolkit(). getScreenSize();
         frame.setPreferredSize(d);
@@ -172,13 +179,19 @@ public class First {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
+                    cl.show(panel_cont, "3");
                 }
-                
             });
 
+            JButton hPanel_exit=hPanel.getExitButton();
+            hPanel_exit.addActionListener(new ActionListener() {
 
-            JButton sPanel_home=sPanel.getHomeButton();
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cl.show(panel_cont, "3");
+                }
+            });
+        
        
         frame.add(panel_cont);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -254,5 +267,16 @@ public class First {
                 }
             }
         });
+    }
+    public void playMusic(String filepath){
+        File music;
+        try {
+            music=new File(filepath);
+            AudioInputStream audioInput=AudioSystem.getAudioInputStream(music);
+            Clip clip=AudioSystem.getClip();
+            clip.open(audioInput);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

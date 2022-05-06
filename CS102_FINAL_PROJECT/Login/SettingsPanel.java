@@ -1,9 +1,13 @@
 package Login;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -53,8 +57,19 @@ public class SettingsPanel extends JPanel{
     }
     
     public void paintComponent( Graphics g ){
-        super.paintComponent( g );
-        g.drawImage( background, 0, 0, 1440, 901, null );
+        super.paintComponent(g);
+        BufferedImage myPicture=null;
+        try {
+            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/success.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Graphics2D g2=(Graphics2D)g;
+        g2.setStroke(new BasicStroke(4));
+        g.drawImage(myPicture, 0,0,null);
+        g2.setColor(Color.WHITE);
+        g2.drawLine(200, 0, 200, 901);
+        g2.drawLine(1200, 0, 1200, 901);
     }
     
     public JButton getHomeButton(){

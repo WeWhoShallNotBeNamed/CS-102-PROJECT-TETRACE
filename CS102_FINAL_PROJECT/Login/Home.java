@@ -1,7 +1,5 @@
 package Login;
 
-
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -27,15 +25,15 @@ public class Home extends JPanel{
     public Home() throws IOException{
         Icon icon_book=new ImageIcon("/Users/eslimranaemiroglu/Desktop/book.png");
         hpb=new JButton(icon_book);
-        hpb.setBounds(1000, 750, 39, 34);
+        hpb.setBounds(1100, 750, 39, 34);
         hpb.setBackground(Color.LIGHT_GRAY);
         hpb.setOpaque(true);
         hpb.setBorderPainted(false);
         hpb.setFocusPainted(false);
 
-        Icon icon_settings=new ImageIcon("/Users/eslimranaemiroglu/Desktop/book.png");
+        Icon icon_settings=new ImageIcon("/Users/eslimranaemiroglu/Desktop/settings.png");
         hs=new JButton(icon_settings);
-        hs.setBounds(1000, 650, 39, 34);
+        hs.setBounds(1100, 700, 39, 34);
         hs.setBackground(Color.LIGHT_GRAY);
         hs.setOpaque(true);
         hs.setBorderPainted(false);
@@ -82,6 +80,7 @@ public class Home extends JPanel{
 
 
         this.add(hpb);
+        this.add(hs);
         this.add(single);
         this.add(multi);
         this.add(creative);
