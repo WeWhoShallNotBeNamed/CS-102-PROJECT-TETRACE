@@ -1,25 +1,5 @@
 
-/**
- * 
- * 
- *          Should we make it object???
- *          Like 2 Jlabels
- *          If yes how are we supposed to use paint() ?
- *          +++ Should keyListeners be added to JPanels?
- *        
- * 
- * 
- * 
- *          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\
- *          !!!                                            \\
- *          !!!    MAIN PROBLEM : sequence of Tetrades      >>
- *          !!!                                            //
- *          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
- * 
- * 
- *          Update: I guess it is not an issue anymore.
- *
- */
+
 
 import javax.swing.Timer;
 
@@ -37,25 +17,22 @@ import java.awt.event.*;
 
 
 public class Tetris_Label extends JLabel {
-    
-    private Timer timer;
-    private final int STARTING_FREQUENCY = 3000;
-    private int currentFrequency;
 
     private boolean isActivated;
-    
+
     private ArrayList<Integer> tetrades;
     private Tetrade currentFigure;
     private int currentIndex;
     private int holdingTetrade;
 
     private int totalLinesCleared;
+    private int linesCleared = -1;
 
     private int[][] currentMainBoard;
 
     private final int xBase = 240;
     private final int yBase = 25;
-    
+
     static final int HEIGHT = 22;
     static final int SIDE_OF_RECTANGLE = 30;
     private final int[][] INITIAL_MAIN_BOARD =
@@ -88,8 +65,6 @@ public class Tetris_Label extends JLabel {
 
     public Tetris_Label(ArrayList<Integer> tetrades)
     {
-
-        this.currentFrequency =STARTING_FREQUENCY;
         this.currentMainBoard = INITIAL_MAIN_BOARD;
         this.totalLinesCleared = 0;
         this.tetrades = new ArrayList<>();
@@ -97,65 +72,12 @@ public class Tetris_Label extends JLabel {
         this.currentIndex = -1;
 
         this.addNewTetrades(tetrades);
-        
+
         nextTetrade();
 
-        this.timer = new Timer(this.currentFrequency, new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                if(!currentFigure.canMove(currentMainBoard)){
-
-                    refreshBoard(currentMainBoard);
-
-                    nextTetrade();
-
-                }
-
-                repaint();
-
-            }
-            
-        });
-
         repaint();
-        
+
     }
-
-
-
-
-    // private void reset() 
-    // {
-    //     this.currentFrequency =STARTING_FREQUENCY;
-    //     this.currentMainBoard = INITIAL_MAIN_BOARD;
-    //     this.totalLinesCleared = 0;
-    //     this.tetrades = new ArrayList<>();
-    //     this.currentIndex = -1;
-    //     nextTetrade();
-    //     this.timer = new Timer(this.currentFrequency, new ActionListener(){
-
-    //         @Override
-    //         public void actionPerformed(ActionEvent e) {
-                
-    //             if(!currentFigure.canMove(currentMainBoard)){
-
-    //                 refreshBoard(currentMainBoard);
-
-    //                 nextTetrade();
-
-    //             }
-
-    //             repaint();
-
-    //         }
-            
-    //     });
-
-    //     this.addKeyListener(new TetrisListener());
-        
-    // }
 
     public void addNewTetrades(ArrayList<Integer> addition)
     {
@@ -184,7 +106,6 @@ public class Tetris_Label extends JLabel {
 
     private Tetrade createTetrade(int tetrade)
     {
-
         if(tetrade==1)
         {
             return new O_Shape();
@@ -209,113 +130,15 @@ public class Tetris_Label extends JLabel {
         {
             return new L_Shape();
         }
-        
-        else return null;
 
+        else return null;
     }
 
-    // private class TetrisListener implements KeyListener {
 
-    //     @Override
-    //     public void keyTyped(KeyEvent e) {
-    //         // TODO Auto-generated method stub
-            
-    //     }
-
-    //     @Override
-    //     public void keyPressed(KeyEvent e) {
-    //         // TODO Auto-generated method stub
-    //         // if(isActivated)
-    //         // {
-    //         //     if(e.getKeyChar()=='w')
-    //         //     {
-    //         //         if (currentFigure.canRotate(currentMainBoard, Tetrade.CLOCK_WISE))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-                    
-    //         //     }
-    //         //     else if(e.getKeyChar()=='q')
-    //         //     {
-    //         //         if (currentFigure.canRotate(currentMainBoard, Tetrade.COUNTER_CLOCK_WISE))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-    //         //     }
-    //         //     else if(e.getKeyChar()=='s')
-    //         //     {
-    //         //         if(!currentFigure.canMove(currentMainBoard)){
-
-    //         //             refreshBoard(currentMainBoard);
-            
-    //         //             nextTetrade();
-            
-    //         //         }
-
-    //         //         repaint();
-    //         //     }
-    //         //     else if(e.getKeyChar()=='a')
-    //         //     {
-    //         //         if (currentFigure.canMoveHorizon(currentMainBoard,-1))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-    //         //     }
-    //         //     else if(e.getKeyChar()=='d')
-    //         //     {
-    //         //         if (currentFigure.canMoveHorizon(currentMainBoard,+1))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-    //         //     }
-    //         //     else if(e.getKeyChar()=='e')
-    //         //     {
-    //         //         if(holdingTetrade==0)
-    //         //         {
-    //         //             holdingTetrade = tetrades.get(currentIndex);
-                        
-    //         //             nextTetrade();
-    //         //         }
-    //         //         else
-    //         //         {
-    //         //             int temp = holdingTetrade;
-    //         //             holdingTetrade = tetrades.get(currentIndex);
-    //         //             tetrades.set(currentIndex, temp);
-    //         //             currentFigure = createTetrade(temp);
-    //         //         }
-    //         //         repaint();
-    //         //     }
-    //         // }
-    //         // else
-    //         // {
-    //         //     timer.start();
-    //         //     isActivated = true;
-    //         // }
-            
-
-
-    //     }
-
-    //     @Override
-    //     public void keyReleased(KeyEvent e) {
-    //         // TODO Auto-generated method stub
-            
-    //     }
-
-    // }
-
-
-
-    //
-    //      ASAGIDAKI METHODDA PROBLEMLER OLABILIR!!!
-    //
     private void refreshBoard(int[][] board) {
         int maxY = (int)(currentFigure.blocks[3].getY());
-        int linesCleared = 0;
+        linesCleared = 0;
         if(maxY<4) {
-            //////   TODO
-            //////   TODO
-            //////   TODO
 
         }
         else {
@@ -324,12 +147,13 @@ public class Tetris_Label extends JLabel {
                 int[] line = board[i];
                 for (int j = 2; j < 12; j++) {
                     if(hasBlock) {
-                        hasBlock = !(line[j]==0);
+                        hasBlock = !(line[j] == 0);
                     }
                 }
 
                 if(hasBlock) {
                     linesCleared++;
+
                 }
                 else{
                     board[i+linesCleared] = board[i];
@@ -349,9 +173,13 @@ public class Tetris_Label extends JLabel {
                 board[i][13] = 1;
             }
         }
-        
+
         totalLinesCleared+=linesCleared;
 
+    }
+
+    public int getLinesCleared(){
+        return linesCleared;
     }
 
     @Override
@@ -375,7 +203,7 @@ public class Tetris_Label extends JLabel {
                 g.setColor(Color.BLACK);
                 g.drawRect(xCordinate, yCordinate, SIDE_OF_RECTANGLE, SIDE_OF_RECTANGLE);
 
-                }
+            }
         }
         for (int i = 1; i < 4; i++) {
             Tetrade tetrade = createTetrade(tetrades.get(i+currentIndex));
@@ -392,31 +220,28 @@ public class Tetris_Label extends JLabel {
 
             }
         }
-        
+
         for (int i = 0; i < 22; i++) {
 
             int yCordinate = yBase + SIDE_OF_RECTANGLE*i;
             for (int j = 0; j < 10; j++) {
-                
+
                 int xCordinate = xBase + SIDE_OF_RECTANGLE*(j-2);
 
                 g.setColor(findColor(tempBoard[i][j]));
-                
+
                 g.fillRect(xCordinate, yCordinate, SIDE_OF_RECTANGLE, SIDE_OF_RECTANGLE);
-                
+
                 g.setColor(Color.BLACK);
                 g.drawRect(xCordinate, yCordinate, SIDE_OF_RECTANGLE, SIDE_OF_RECTANGLE);
             }
 
         }
-  
-        //this.getParent().printAll(g);
-
     }
 
     int[][] makeTempBoard() {
         int[][] temp = new int[22][10];
-        
+
         for (int i = 0; i < 22; i++) {
             for (int j = 0; j < 10; j++) {
                 temp[i][j] = this.currentMainBoard[i][j+2];
@@ -428,10 +253,10 @@ public class Tetris_Label extends JLabel {
             temp[(int)(block.getY())][(int)(block.getX())-2] = currentFigure.getID();
         }
 
-        for (int i = 0; i < temp.length; i++) {
-            System.out.println(Arrays.toString(temp[i]));
-        }
-        System.out.println("---------------------------");
+        // for (int i = 0; i < temp.length; i++) {
+        //     System.out.println(Arrays.toString(temp[i]));
+        // }
+        // System.out.println("---------------------------");
 
         return temp;
     }
@@ -460,62 +285,53 @@ public class Tetris_Label extends JLabel {
         }
         else return null;
     }
-    
-    public boolean canRotate(int direction) {
-        if (currentFigure.canRotate(currentMainBoard, direction))
-        {
-            // Can we use this.getParent().paintAll ???
-            repaint();
-            return true;
-        }
 
-        return false;
+    public int canRotate(int direction) {
+        int result = currentFigure.canRotate(currentMainBoard, direction);
+        if (result!=-1)
+        {
+            repaint();
+        }
+        return result;
     }
 
-    public boolean canMoveDown() 
+    public int canMoveDown()
     {
-        if(!currentFigure.canMove(currentMainBoard)){
+        int result = currentFigure.canMove(currentMainBoard);
+        if(result==-1){
 
             refreshBoard(currentMainBoard);
 
             nextTetrade();
-
-            // Can we use this.getParent().paintAll ???
-            this.getParent();
-            repaint();
-            return false;
         }
 
-        // Can we use this.getParent().paintAll ???
         repaint();
-        return true;
+        return result;
     }
 
-    public boolean canMoveLeft() {
-        if (currentFigure.canMoveHorizon(currentMainBoard,-1))
+    public int canMoveLeft() {
+        int result = currentFigure.canMoveHorizon(currentMainBoard,-1);
+        if (result!=-1)
         {
-            // Can we use this.getParent().paintAll ???
             repaint();
-            return true;
         }
-        return false;
+        return result;
     }
 
-    public boolean canMoveRight() {
-        if (currentFigure.canMoveHorizon(currentMainBoard,+1))
+    public int canMoveRight() {
+        int result = currentFigure.canMoveHorizon(currentMainBoard,+1);
+        if (result!=-1)
         {
-            // Can we use this.getParent().paintAll ???
             repaint();
-            return true;
         }
-        return false;
+        return result;
     }
 
     public void holdPiece() {
         if(holdingTetrade==0)
         {
             holdingTetrade = tetrades.get(currentIndex);
-                        
+
             nextTetrade();
         }
         else
@@ -534,9 +350,7 @@ public class Tetris_Label extends JLabel {
         return this.tetrades.size() - this.currentIndex;
     }
 
-    public void activate() {
-        this.isActivated = true;
-        this.timer.start();
+    public int getTotalLinesCleared() {
+        return totalLinesCleared;
     }
-
 }

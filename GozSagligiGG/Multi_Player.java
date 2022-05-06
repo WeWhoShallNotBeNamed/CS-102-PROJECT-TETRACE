@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -10,10 +11,14 @@ public class Multi_Player extends JPanel {
 
     private Tetris_Label game1;
     private Tetris_Label game2;
-    
-    // private Timer timer;
-    // private final int STARTING_FREQUENCY = 3000;
-    // private int currentFrequence;
+
+    private Timer timer1;
+    private Timer timer2;
+
+    private int currentFrequency1;
+    private int currentFrequency2;
+
+    private final int STARTING_FREQUENCY = 3000;
 
     private boolean isActivated;
 
@@ -47,6 +52,34 @@ public class Multi_Player extends JPanel {
 
         repaint();
 
+        this.currentFrequency1 = STARTING_FREQUENCY;
+        this.currentFrequency2 = STARTING_FREQUENCY;
+        
+        this.timer1 = new Timer(currentFrequency1, new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(!game1.canMoveDown())
+                {
+                    updateSequences();
+                }
+            }
+
+        });
+        this.timer2 = new Timer(currentFrequency2, new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(!game2.canMoveDown())
+                {
+                    updateSequences();
+                }
+            }
+
+        });
+
         this.addKeyListener(new TetrisListener());
         this.grabFocus();
     }
@@ -57,6 +90,31 @@ public class Multi_Player extends JPanel {
         super.paint(g);
         paintComponents(g);
         this.grabFocus();
+    }
+
+    private class rotationListener implements KeyListener {
+
+        boolean isActiveRight = true;
+        boolean isActiveLeft = true;
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+        
     }
 
     private class TetrisListener implements KeyListener {
@@ -76,7 +134,8 @@ public class Multi_Player extends JPanel {
                 {
                     if (game1.canRotate(Tetrade.CLOCK_WISE))
                     {
-                        repaint();
+                        // ihtiyac yokmus
+                        // repaint();
                     }
                     
                 }
@@ -84,7 +143,7 @@ public class Multi_Player extends JPanel {
                 {
                     if (game2.canRotate(Tetrade.CLOCK_WISE))
                     {
-                        repaint();
+                        // repaint();
                     }
                     
                 }
@@ -94,7 +153,7 @@ public class Multi_Player extends JPanel {
                         // TODO
                         updateSequences();
                     }
-                    repaint();
+                    // repaint();
                 }
                 else if(e.getKeyCode()==KeyEvent.VK_DOWN)
                 {
@@ -102,60 +161,58 @@ public class Multi_Player extends JPanel {
                         // TODO
                         updateSequences();
                     }
-                    repaint();
+                    // repaint();
                 }
                 else if(e.getKeyChar()=='a')
                 {
                     if (game1.canMoveLeft())
                     {
-                        repaint();
+                        // repaint();
                     }
                 }
                 else if(e.getKeyCode()==KeyEvent.VK_LEFT)
                 {
                     if (game2.canMoveLeft())
                     {
-                        repaint();
+                        // repaint();
                     }
                 }
                 else if(e.getKeyChar()=='d')
                 {
                     if (game1.canMoveRight())
                     {
-                        repaint();
+                        // repaint();
                     }
                 }
                 else if(e.getKeyCode()==KeyEvent.VK_RIGHT)
                 {
                     if (game2.canMoveRight())
                     {
-                        repaint();
+                        // repaint();
                     }
                 }
                 else if(e.getKeyChar()=='e')
                 {
                     game1.holdPiece();
-                    repaint();
+                    // repaint();
                 }
                 else if(e.getKeyChar()=='l')
                 {
                     game2.holdPiece();
-                    repaint();
+                    // repaint();
                 }
-
-                // STOP hehehehehe
                 else if(e.getKeyChar()=='q')
                 {
                     if (game1.canRotate( Tetrade.COUNTER_CLOCK_WISE))
                     {
-                        repaint();
+                        // repaint();
                     }
                 }
                 else if(e.getKeyChar()=='k')
                 {
                     if (game2.canRotate( Tetrade.COUNTER_CLOCK_WISE))
                     {
-                        repaint();
+                        // repaint();
                     }
                 }
             }
@@ -214,7 +271,7 @@ public class Multi_Player extends JPanel {
     }
 
     private void activateBoards() {
-        this.game1.activate();
-        this.game2.activate();
+        this.timer1.start();
+        this.timer2.start();
     }
 }

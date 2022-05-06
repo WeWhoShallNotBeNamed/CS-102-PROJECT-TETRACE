@@ -7,156 +7,165 @@ public abstract class Tetrade {
     final static int COUNTER_CLOCK_WISE = -1;
     Point[] blocks = new Point[4];
     int ID;
-    
+
     protected int referX;
     protected int referY;
     protected int state;
 
-    boolean setState(int state, int[][] board){
-        return false;
-    }
+    abstract int setState(int state, int[][] board);
 
-    boolean canRotate(int[][] board, int direction) {
-        int result = (this.state + direction) % 4;
-        if (result==-1) result = 3;
-        
+    int canRotate(int[][] board, int direction) {
+        int newState = (this.state + direction) % 4;
+        if (newState==-1) newState = 3;
+
         if(this.state==1){
-            if(!this.setState(result, board)){
+            int result = this.setState(newState, board);
+            if(result==-1){
                 this.referX++;
-                if(!this.setState(result, board)){
+
+                result = this.setState(newState, board);
+                if(result==-1){
                     this.referY++;
-                    if(!this.setState(result, board)){
+
+                    result = this.setState(newState, board);
+                    if(result==-1){
                         this.referX--;
                         this.referY-=3;
-                        if(!this.setState(result, board)){
+
+                        result = this.setState(newState, board);
+                        if(result==-1){
                             this.referX++;
-                            if(!this.setState(result, board)){
+
+                            result = this.setState(newState, board);
+                            if(result==-1){
                                 this.referX--;
                                 this.referY+=2;
-                                return false;
+
                             }
                         }
                     }
                 }
             }
+
+            return result;
         }
         else if(this.state==3){
-            if(!this.setState(result, board)){
+            int result = this.setState(newState, board);
+            if(result==-1){
                 this.referX--;
-                if(!this.setState(result, board)){
+
+                result = this.setState(newState, board);
+                if(result==-1){
                     this.referY++;
-                    if(!this.setState(result, board)){
+
+                    result = this.setState(newState, board);
+                    if(result==-1){
                         this.referX++;
                         this.referY-=3;
-                        if(!this.setState(result, board)){
+
+                        result = this.setState(newState, board);
+                        if(result==-1){
                             this.referX--;
-                            if(!this.setState(result, board)){
+
+                            result = this.setState(newState, board);
+                            if(result==-1){
                                 this.referX++;
                                 this.referY+=2;
-                                return false;
+
                             }
                         }
                     }
                 }
             }
+
+            return result;
         }
-        else if(result==1){
-            if(!this.setState(result, board)){
+        else if(newState==1){
+            int result = this.setState(newState, board);
+            if(result==-1){
                 this.referX--;
-                if(!this.setState(result, board)){
+
+                result = this.setState(newState, board);
+                if(result==-1){
                     this.referY--;
-                    if(!this.setState(result, board)){
+
+                    result = this.setState(newState, board);
+                    if(result==-1){
                         this.referX++;
                         this.referY+=3;
-                        if(!this.setState(result, board)){
+
+                        result = this.setState(newState, board);
+                        if(result==-1){
                             this.referX--;
-                            if(!this.setState(result, board)){
+
+                            result = this.setState(newState, board);
+                            if(result==-1){
                                 this.referX++;
                                 this.referY-=2;
-                                return false;
+
                             }
                         }
                     }
                 }
             }
+
+            return result;
         }
-        else if(result==3){
-            if(!this.setState(result, board)){
+        else if(newState==3){
+            int result = this.setState(newState, board);
+            if(result==-1){
                 this.referX++;
-                if(!this.setState(result, board)){
+
+                result = this.setState(newState, board);
+                if(result==-1){
                     this.referY--;
-                    if(!this.setState(result, board)){
+
+                    result = this.setState(newState, board);
+                    if(result==-1){
                         this.referX--;
                         this.referY+=3;
-                        if(!this.setState(result, board)){
+
+                        result = this.setState(newState, board);
+                        if(result==-1){
                             this.referX++;
-                            if(!this.setState(result, board)){
+
+                            result = this.setState(newState, board);
+                            if(result==-1){
                                 this.referX--;
                                 this.referY-=2;
-                                return false;
+
                             }
                         }
                     }
                 }
             }
+            return result;
         }
 
-        return true;
+        return -1;
     }
 
-    public boolean canMove(int[][] board){
-
-        for (int i = this.blocks.length-1; i >= 0; i--) {
-
-            Point block = this.blocks[i];
-
-            if(board[(int)(block.getY()+1)][(int)(block.getX())]!=0){
-                for (int j = 0; j < 4; j++) {
-                    Point xaj = this.blocks[j];
-                    board[(int)(xaj.getY())][(int)(xaj.getX())] = this.ID;
-                }
-                //refreshBoard(board);
-                return false;
-            }
-
-            // if(block.getY()+1==Gorax.HEIGHT){
-            //     for (int j = 0; j < 4; j++) {
-            //         Point xaj = this.blocks[j];
-            //         board[(int)(xaj.getY())][(int)(xaj.getX())] = this.ID;
-            //     }
-            //     //refreshBoard(board);
-            //     return false;
-            // }
-
-        }
-
-        for (int i = 0; i < this.blocks.length; i++) {
-            Point block = this.blocks[i];
-            block.y = block.y+1;
-        }
+    public int canMove(int[][] board){
 
         this.referY++;
-        return true;
+        int result = this.setState(state, board);
+        if(result==-1){
+            this.referY--;
+            for (int j = 0; j < 4; j++) {
+                Point xaj = this.blocks[j];
+                board[(int)(xaj.getY())][(int)(xaj.getX())] = this.ID;
+            }
+        }
+        return result;
     }
 
-    public boolean canMoveHorizon(int[][] board, int direction) {
-        for (int i = 0; i < this.blocks.length; i++) {
-            Point block = this.blocks[i];
-            if(board[(int)(block.getY())][(int)(block.getX()+direction)]!=0){
-                
-                return false;
-            }
-            // if(block.getX()+direction==10||block.getX()+direction==-1){
-                
-            //     return false;
-            // }
-        }
-        for (int i = 0; i < this.blocks.length; i++) {
-            Point block = this.blocks[i];
-            block.x = block.x+direction;
-        }
+    public int canMoveHorizon(int[][] board, int direction) {
         this.referX+=direction;
-        return true;
+        int result = this.setState(state, board);
+        if(result==-1){
+            this.referX-=direction;
+        }
+        return result;
     }
 
     public int getID() {

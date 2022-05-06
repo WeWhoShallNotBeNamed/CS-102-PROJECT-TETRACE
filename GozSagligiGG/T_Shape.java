@@ -16,7 +16,7 @@ public class T_Shape extends Tetrade {
 
     
     @Override
-    public boolean setState(int state, int[][] board) {
+    public int setState(int state, int[][] board) {
         if(state==0){
             if(board[referY][referX+1]==0
             && board[referY+1][referX]==0
@@ -29,9 +29,16 @@ public class T_Shape extends Tetrade {
                 this.blocks[3].move(referX+2, referY+1);
 
                 this.state= state;
-                return true;
+
+                if(board[referY+1][referX+1]==0
+                && board[referY+2][referX]==0
+                && board[referY+2][referX+1]==0
+                && board[referY+2][referX+2]==0){
+                    return 0;
+                }
+                return 1;
             }
-            else return false;
+            else return -1;
         }
 
         if(state==1){
@@ -46,9 +53,16 @@ public class T_Shape extends Tetrade {
                 this.blocks[3].move(referX+1, referY+2);
 
                 this.state= state;
-                return true;
+
+                if(board[referY+1][referX+1]==0
+                && board[referY+2][referX+1]==0
+                && board[referY+2][referX+2]==0
+                && board[referY+3][referX+1]==0){
+                    return 0;
+                }
+                return 1;
             }
-            else return false;
+            else return -1;
         }
 
         if(state==2){
@@ -63,9 +77,16 @@ public class T_Shape extends Tetrade {
                 this.blocks[3].move(referX+1, referY+2);
 
                 this.state= state;
-                return true;
+
+                if(board[referY+2][referX]==0
+                && board[referY+2][referX+1]==0
+                && board[referY+2][referX+2]==0
+                && board[referY+3][referX+1]==0){
+                    return 0;
+                }
+                return 1;
             }
-            else return false;
+            else return -1;
         }
 
         if(state==3){
@@ -80,12 +101,19 @@ public class T_Shape extends Tetrade {
                 this.blocks[3].move(referX+1, referY+2);
 
                 this.state= state;
-                return true;
+
+                if(board[referY+1][referX+1]==0
+                && board[referY+2][referX]==0
+                && board[referY+2][referX+1]==0
+                && board[referY+3][referX+1]==0){
+                    return 0;
+                }
+                return 1;
             }
-            else return false;
+            else return -1;
         }
 
-        return false;
+        return -1;
     }
 
 

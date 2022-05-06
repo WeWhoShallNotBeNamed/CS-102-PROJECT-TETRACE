@@ -6,9 +6,9 @@ public class Regulta {
         JFrame infow = new JFrame();
         infow.setVisible(true);
         infow.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        infow.add(new Multi_Player());
+        // infow.add(new Multi_Player());
         // Yukarini commentleyip, altdakine de bakin
-        //infow.add(new Single_Player());
+        infow.add(new Single_Player());
         infow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
