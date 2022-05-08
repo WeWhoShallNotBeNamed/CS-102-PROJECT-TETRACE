@@ -32,12 +32,18 @@ public class Single_Player extends JPanel {
         this.grabFocus();
     }
 
-    public void setLabel(ArrayList<Integer> temp, int number){
+     public void setLabel(ArrayList<Integer> temp, int number){
         if(number == 1){
             game1 = new Tetris_Label(temp);
         }
         else if(number == 2){
             game1 = new Story_Label(temp);
+        }
+        else if(number == 3){
+            game1 = new Story_Level2(temp);
+        }
+        else if(number == 7){
+            game1 = new Oldschool(temp);
         }
     }
 

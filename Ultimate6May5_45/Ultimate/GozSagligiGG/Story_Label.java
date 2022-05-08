@@ -45,7 +45,9 @@ public class Story_Label extends Tetris_Label{
         else if(number == 6){
             return (new ImageIcon("/Users/selin/Desktop/Ultimate6May5_45/Ultimate/Titan-15.png")).getImage(); // daha yok Titan-6.jpg
         }
-        return null;
+        else{
+            return null;
+        }
     }
 
 }

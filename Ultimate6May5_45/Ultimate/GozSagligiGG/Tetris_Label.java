@@ -1,25 +1,16 @@
 
-import javax.swing.Timer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import java.awt.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.*;
 
 
 public class Tetris_Label extends JLabel {
-
-    private boolean isActivated;
-
+    
     private ArrayList<Integer> tetrades;
     private Tetrade currentFigure;
     private Tetrade previousFigure;
@@ -138,101 +129,6 @@ public class Tetris_Label extends JLabel {
 
     }
 
-    // private class TetrisListener implements KeyListener {
-
-    //     @Override
-    //     public void keyTyped(KeyEvent e) {
-    //         // TODO Auto-generated method stub
-
-    //     }
-
-    //     @Override
-    //     public void keyPressed(KeyEvent e) {
-    //         // TODO Auto-generated method stub
-    //         // if(isActivated)
-    //         // {
-    //         //     if(e.getKeyChar()=='w')
-    //         //     {
-    //         //         if (currentFigure.canRotate(currentMainBoard, Tetrade.CLOCK_WISE))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-
-    //         //     }
-    //         //     else if(e.getKeyChar()=='q')
-    //         //     {
-    //         //         if (currentFigure.canRotate(currentMainBoard, Tetrade.COUNTER_CLOCK_WISE))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-    //         //     }
-    //         //     else if(e.getKeyChar()=='s')
-    //         //     {
-    //         //         if(!currentFigure.canMove(currentMainBoard)){
-
-    //         //             refreshBoard(currentMainBoard);
-
-    //         //             nextTetrade();
-
-    //         //         }
-
-    //         //         repaint();
-    //         //     }
-    //         //     else if(e.getKeyChar()=='a')
-    //         //     {
-    //         //         if (currentFigure.canMoveHorizon(currentMainBoard,-1))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-    //         //     }
-    //         //     else if(e.getKeyChar()=='d')
-    //         //     {
-    //         //         if (currentFigure.canMoveHorizon(currentMainBoard,+1))
-    //         //         {
-    //         //             repaint();
-    //         //         }
-    //         //     }
-    //         //     else if(e.getKeyChar()=='e')
-    //         //     {
-    //         //         if(holdingTetrade==0)
-    //         //         {
-    //         //             holdingTetrade = tetrades.get(currentIndex);
-
-    //         //             nextTetrade();
-    //         //         }
-    //         //         else
-    //         //         {
-    //         //             int temp = holdingTetrade;
-    //         //             holdingTetrade = tetrades.get(currentIndex);
-    //         //             tetrades.set(currentIndex, temp);
-    //         //             currentFigure = createTetrade(temp);
-    //         //         }
-    //         //         repaint();
-    //         //     }
-    //         // }
-    //         // else
-    //         // {
-    //         //     timer.start();
-    //         //     isActivated = true;
-    //         // }
-
-
-
-    //     }
-
-    //     @Override
-    //     public void keyReleased(KeyEvent e) {
-    //         // TODO Auto-generated method stub
-
-    //     }
-
-    // }
-
-
-
-    //
-    //      ASAGIDAKI METHODDA PROBLEMLER OLABILIR!!!
-    //
     private void refreshBoard(int[][] board) {
         int maxY = (int)(currentFigure.blocks[3].getY());
         int linesCleared = 0;
@@ -248,7 +144,7 @@ public class Tetris_Label extends JLabel {
                 int[] line = board[i];
                 for (int j = 2; j < 12; j++) {
                     if(hasBlock) {
-                        hasBlock = !(line[j]==0);
+                        hasBlock = !(line[j]==0 || line[j] == 9);
                     }
                 }
 
@@ -458,6 +354,16 @@ public class Tetris_Label extends JLabel {
         for (int i = 2; i < 12; i++) {
             currentMainBoard[index][i] = 9;
         }
+    }
+
+    public void block(int index){
+        for (int i = 2; i < 12; i++) {
+            currentMainBoard[index][i] = 11;
+        }
+    }
+
+    public int getRecentIndex(){
+        return (int)(this.currentFigure.blocks[3].getY());
     }
 
     public int getLastIndex(){

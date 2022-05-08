@@ -7,11 +7,11 @@ import java.util.Collections;
 import java.awt.event.*;
 
 
-    
+
 public class Freezing_mode extends JPanel {
 
     private Tetris_Label game1;
-    
+
     private Timer freezeTimer;
     private int freezeIndex = 21;
     private Timer timer1;
@@ -43,7 +43,7 @@ public class Freezing_mode extends JPanel {
         ArrayList<Integer> temp = makeRandomSequence();
 
         this.game1 = new Tetris_Label(temp);
-        
+
 
         game1.setBounds(300, 0, 601, 700);
 
@@ -59,11 +59,14 @@ public class Freezing_mode extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(game1.getRecentIndex() == freezeIndex){
+                    game1.canMoveDown();
+                }
                 game1.freeze(freezeIndex--);
             }
 
         });
-        
+
         this.timer1 = new Timer(currentFrequency1, new ActionListener(){
 
             @Override
@@ -98,16 +101,16 @@ public class Freezing_mode extends JPanel {
     }
 
     private class softDropListener implements KeyListener {
-        
+
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
-        public void keyPressed(KeyEvent e) 
-        {    
+        public void keyPressed(KeyEvent e)
+        {
             if(e.getKeyCode() == KeyEvent.VK_DOWN && !isSoftDropActive && isActivated)
             {
                 isSoftDropActive = true;
@@ -136,7 +139,7 @@ public class Freezing_mode extends JPanel {
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -180,7 +183,7 @@ public class Freezing_mode extends JPanel {
                 }
             }
         }
-        
+
     }
 
 
@@ -189,7 +192,7 @@ public class Freezing_mode extends JPanel {
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -197,7 +200,7 @@ public class Freezing_mode extends JPanel {
             // TODO Auto-generated method stub
             if(isActivated)
             {
-                
+
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
                     if (game1.canMoveLeft()==1)
@@ -219,14 +222,14 @@ public class Freezing_mode extends JPanel {
                     game1.holdPiece();
                     // repaint();
                 }
-                
+
             }
             else
             {
                 activateBoards();
                 isActivated = true;
             }
-            
+
             grabFocus();
 
         }
@@ -234,15 +237,15 @@ public class Freezing_mode extends JPanel {
         @Override
         public void keyReleased(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
     }
 
     private ArrayList<Integer> makeRandomSequence() {
-        
+
         ArrayList<Integer> result = new ArrayList<Integer>();
-        
+
         for (int i = 0; i < PREFERRED_GAP/7; i++) {
 
             ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -282,7 +285,7 @@ public class Freezing_mode extends JPanel {
         softFrequency();
     }
 
-    private void softFrequency() 
+    private void softFrequency()
     {
         this.timer1.setInitialDelay(0);
         this.timer1.setDelay(currentFrequency1/softDrop);
