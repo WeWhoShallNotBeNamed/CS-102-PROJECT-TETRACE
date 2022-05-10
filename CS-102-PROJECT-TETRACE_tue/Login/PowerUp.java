@@ -3,7 +3,7 @@ import javax.swing.JPanel;
 
 public abstract class PowerUp extends JPanel{
     private int price;
-    private boolean isActive;
+    protected boolean isActive;
     private boolean isOwned;
 
     private int numberOfOwned = 0;
@@ -37,5 +37,5 @@ public abstract class PowerUp extends JPanel{
         return isOwned;
     }
     
-    public abstract void apply(JPanel panel);
+    //public abstract void apply(JPanel panel);
 }

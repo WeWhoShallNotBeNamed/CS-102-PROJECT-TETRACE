@@ -42,6 +42,7 @@ public class ShopPanel extends JPanel{
 
 
     public ShopPanel(User u){
+        
         user=u;
         setLayout( null );
         setImages();
@@ -116,7 +117,7 @@ public class ShopPanel extends JPanel{
 
     private class Purchase1Listener implements ActionListener{
         public void actionPerformed(ActionEvent event){
-            PowerUp powerUp = new BlackOut(); 
+            PowerUp powerUp = new BlackOut(user); 
             
             if(user.canBuy(powerUp.getPrice()))
                 user.buy(powerUp);

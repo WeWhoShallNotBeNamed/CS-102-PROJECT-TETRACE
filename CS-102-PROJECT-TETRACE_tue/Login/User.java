@@ -1,5 +1,5 @@
 package Login;
-import java.awt.image.BufferedImage;
+
 import java.util.ArrayList;
 
 public class User {
@@ -12,9 +12,17 @@ public class User {
     public int choice;
     public int score;
     public int level;
-    public ArrayList <PowerUp> repo;
+    public int bo;
+    public int cb;
+    public int ss;
+    public ArrayList<PowerUp> repo;
+
+    public boolean boactive;
+    public boolean cbactive;
+    public boolean ssactive;
+
     public User(){
-        repo=new ArrayList<>();
+        repo = new ArrayList<>();
         count++;
         id=count;
     }
@@ -33,16 +41,50 @@ public class User {
         }
         return false;
     }
-    public PowerUp getBlackOut(){
+   
+    public void buy(PowerUp pu){
+        repo.add(pu);
+        if(pu.getPrice()==500){
+            bo++;
+            score=score-500;
+        }
+        else if(pu.getPrice()==1500){
+            cb++;
+            score=score-1500;
+        }
+        else if(pu.getPrice()==1000){
+            ss++;
+            score=score-1000;
+        }
+    }
+    public BlackOut getBlackOut(){
         for(int i=0;i<repo.size();i++){
+
             if(repo.get(i).getPrice()==500){
-                return repo.get(i);
+                BlackOut r=(BlackOut)repo.get(i);
+                return r;
             }
         }
         return null;
-        
     }
-    public void buy(PowerUp pu){
-        repo.add(pu);
+    public ScreenSwap getScreenSwap(){
+        for(int i=0;i<repo.size();i++){
+
+            if(repo.get(i).getPrice()==1000){
+                ScreenSwap r=(ScreenSwap)repo.get(i);
+                return r;
+            }
+        }
+        return null;
+    }
+    public CutBack getCutBack(){
+        for(int i=0;i<repo.size();i++){
+
+            if(repo.get(i).getPrice()==1500){
+                CutBack r=(CutBack)repo.get(i);
+                return r;
+            }
+        }
+        return null;
     }
 }

@@ -33,7 +33,6 @@ public class Single extends JPanel{
         old_school.setFocusPainted(false); 
         story.setFocusPainted(false);
 
-
         standard.setOpaque(true);
         standard.setBorderPainted(false);
         standard.setBackground(Color.MAGENTA);
@@ -50,13 +49,10 @@ public class Single extends JPanel{
         story.setBorderPainted(false);
         story.setBackground(Color.ORANGE);
 
-
-
         standard.setBounds(610, 400, 200, 80);
         freezing.setBounds(610, 500, 200, 80);
         old_school.setBounds(610, 600, 200, 80);
         story.setBounds(610, 700, 200, 80);
-
 
         JLabel group_label = new JLabel("Proudly created by We, Who Shall Not Be Named...");
         BufferedImage myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/bg_game.png"));
@@ -73,8 +69,8 @@ public class Single extends JPanel{
         this.add(story);
         this.add(group_label);
         this.add(picLabel);
-
     }
+    
     @Override
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;

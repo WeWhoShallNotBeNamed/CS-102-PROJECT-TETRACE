@@ -24,18 +24,18 @@ public class ScreenSwap extends PowerUp {
         super(PRICE);
     }
 
-    @Override
-    public void apply(JPanel panel) {
-        if(panel instanceof Multi_Player){
-            this.timer = new Timer(10000, new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e) {                    
-                    stopScreenSwap();
-                }
-            });
-            timer.stop();
-        }
-    } 
+    // @Override
+    // public void apply(JPanel panel) {
+    //     if(panel instanceof Multi_Player){
+    //         this.timer = new Timer(10000, new ActionListener(){
+    //             @Override
+    //             public void actionPerformed(ActionEvent e) {                    
+    //                 stopScreenSwap();
+    //             }
+    //         });
+    //         timer.stop();
+    //     }
+    // } 
     public void stopScreenSwap(){
         
     }

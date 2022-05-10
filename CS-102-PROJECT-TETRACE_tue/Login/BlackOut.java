@@ -18,26 +18,30 @@ import java.awt.event.*;
 
 public class BlackOut extends PowerUp {
     final static int PRICE = 500;
-    private Timer timer;
+    public long start;
+    User u1;
 
-    public BlackOut() {
+    public BlackOut(User u) {
         super(PRICE);
+        u1=u;
     }
    
-    @Override
-    public void apply(JPanel panel){
-        if(panel instanceof Multi_Player){
-            this.timer = new Timer(10000, new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e) {                    
-                    stopBlackOut();
-                }
-            });
-            timer.stop();
-        }
-    }
+    // @Override
+    // public void apply(JPanel panel){
+    //     if(panel instanceof Multi_Player){
+    //         if(this.i)
+
+    //         this.timer = new Timer(10000, new ActionListener(){
+    //             @Override
+    //             public void actionPerformed(ActionEvent e) {                    
+    //                 stopBlackOut();
+    //             }
+    //         });
+    //         timer.stop();
+    //     }
+    // }
     
     public void stopBlackOut(){
-        user.getBlackOut().isActive = false;
+        u1.getBlackOut().isActive = false;
     }
 }

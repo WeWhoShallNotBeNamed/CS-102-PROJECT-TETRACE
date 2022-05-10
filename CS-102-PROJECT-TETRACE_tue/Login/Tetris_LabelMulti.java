@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.Point;
 
 
-public class Tetris_Label extends JLabel {
+public class Tetris_LabelMulti extends JLabel {
     
     private ArrayList<Integer> tetrades;
     private Tetrade currentFigure;
@@ -18,7 +18,9 @@ public class Tetris_Label extends JLabel {
     private int currentIndex;
     private int holdingTetrade;
     User user;
+    User u2;
 
+    long tenseconds=10000;
     private int totalLinesCleared;
 
     private int[][] currentMainBoard;
@@ -56,9 +58,10 @@ public class Tetris_Label extends JLabel {
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     };
 
-    public Tetris_Label(ArrayList<Integer> tetrades, User u)
+    public Tetris_LabelMulti(ArrayList<Integer> tetrades, User u,User u2)
     {
         user=u;
+        this.u2=u2;
         this.currentMainBoard = INITIAL_MAIN_BOARD;
         this.totalLinesCleared = 0;
         this.tetrades = new ArrayList<>();
@@ -134,6 +137,7 @@ public class Tetris_Label extends JLabel {
     private void refreshBoard(int[][] board) {
         int maxY = (int)(currentFigure.blocks[3].getY());
         int linesCleared = 0;
+
         if(maxY<4) {
             //////   TODO
             //////   TODO
@@ -173,15 +177,16 @@ public class Tetris_Label extends JLabel {
         }
 
         totalLinesCleared+=linesCleared;
+        user.increaseScore(100);
 
     }
 
     @Override
     public void paint(Graphics g) {
-
+        long current=System.currentTimeMillis();
         // TODO Auto-generated method stub
         super.paint(g);
-
+       
         int[][] tempBoard = makeTempBoard();
 
         if(holdingTetrade!=0){
@@ -191,9 +196,14 @@ public class Tetris_Label extends JLabel {
                 int xCordinate = xBase + (int)(block.getX()-11)*SIDE_OF_RECTANGLE;
                 int yCordinate = yBase + (int)(block.getY())*SIDE_OF_RECTANGLE + 90;
 
-                    g.drawImage(findColor(holding.ID), xCordinate, yCordinate, null);
+                if((u2.bo>0 && u2.getBlackOut().isActive==true && current-u2.getBlackOut().start<=tenseconds)){//&& user.getBlackOut().isActive()==true 
+                    g.drawImage(new ImageIcon("images/black.png").getImage(), xCordinate, yCordinate, null);
+                }
+                else {
+                    g.drawImage(findColor(holding.ID), xCordinate, yCordinate, null);}
 
-               
+                // g.setColor(Color.BLACK);
+                // g.drawRect(xCordinate, yCordinate, SIDE_OF_RECTANGLE, SIDE_OF_RECTANGLE);
 
                 }
         }
@@ -204,9 +214,15 @@ public class Tetris_Label extends JLabel {
                 int xCordinate = xBase + (int)(block.getX()+4)*SIDE_OF_RECTANGLE;
                 int yCordinate = yBase + (int)(block.getY())*SIDE_OF_RECTANGLE + 90*i;
 
-                g.drawImage(findColor(tetrade.ID), xCordinate, yCordinate, null);
+                if(u2.bo>0 && u2.getBlackOut().isActive==true && current-u2.getBlackOut().start<=tenseconds){//&& user.getBlackOut().isActive()==true 
+                    g.drawImage(new ImageIcon("images/black.png").getImage(), xCordinate, yCordinate, null);
+                    
+                }
+                else {
+                    g.drawImage(findColor(tetrade.ID), xCordinate, yCordinate, null);}
 
-                
+                // g.setColor(Color.BLACK);
+                // g.drawRect(xCordinate, yCordinate, SIDE_OF_RECTANGLE, SIDE_OF_RECTANGLE);
 
             }
         }
@@ -218,13 +234,18 @@ public class Tetris_Label extends JLabel {
 
                 int xCordinate = xBase + SIDE_OF_RECTANGLE*(j-2);
 
-                 g.drawImage(findColor(tempBoard[i][j]), xCordinate, yCordinate, null);
+                if(u2.bo>0 && u2.getBlackOut().isActive==true && System.currentTimeMillis()-u2.getBlackOut().start<=tenseconds){
+                    g.drawImage(new ImageIcon("images/black.png").getImage(), xCordinate, yCordinate, null);
+                }
+                else {
+                 g.drawImage(findColor(tempBoard[i][j]), xCordinate, yCordinate, null);}
 
                 g.setColor(Color.BLACK);
                 g.drawRect(xCordinate, yCordinate, SIDE_OF_RECTANGLE, SIDE_OF_RECTANGLE);
             }
 
         }
+        
 
         //this.getParent().printAll(g);
 
@@ -367,14 +388,5 @@ public class Tetris_Label extends JLabel {
 
     public int getLastIndex(){
         return (int)(this.previousFigure.blocks[3].getY());
-    }
-    public boolean isOver(){
-        for(int i=0;i<currentFigure.blocks.length;i++){
-            Point block=currentFigure.blocks[i];
-            if(currentMainBoard[(int)(block.getY())][(int)(block.getX())]!=0){
-                return true;
-            }
-        }
-        return false;
     }
 }
