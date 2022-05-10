@@ -20,12 +20,13 @@ import java.io.File;
 import java.io.IOException;
 
 
-    
+
 public class Single_Player extends JPanel {
 
     private Tetris_Label game1;
-    
+
     private Timer timer1;
+    private Timer rotateTimer;
     private final int STARTING_FREQUENCY = 1000;
     private int currentFrequency1;
     private boolean isSoftDropActive;
@@ -36,8 +37,7 @@ public class Single_Player extends JPanel {
     private boolean isActivated;
     User u;
     private final int PREFERRED_GAP = 21;
-
-
+    Timer speedTimer;
     public Single_Player (User u, int i) {
         hold=new JLabel();
         next=new JLabel();
@@ -50,18 +50,36 @@ public class Single_Player extends JPanel {
             border3.setTitleColor(Color.WHITE);
             border.setTitleColor(Color.WHITE);
         }
-        
+
+        this.speedTimer = new Timer(20000, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setSpeed(currentFrequency1 - 2000);
+                speedTimer.restart();
+            }
+        });
+
         next.setBorder(border3);
         hold.setBorder(border);
-       
+        setSpeed(STARTING_FREQUENCY);
+
         hold.setBounds(430,250,130,200);
         next.setBounds(880,250,130,300);
         this.add(hold);
         this.add(next);
         this.setLayout(null);
         label_number=i;
+        this.speedTimer = new Timer(20000, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setSpeed(currentFrequency1 - 2000);
+                speedTimer.restart();
+            }
+        });
+        if(i == 2){
+            speedTimer.start();
+        }
         reset();
-
         this.grabFocus();
     }
 
@@ -76,7 +94,17 @@ public class Single_Player extends JPanel {
             game1=new Oldschool(temp,u);
         }
     }
-    
+
+    public void setSpeed(int speed){
+        currentFrequency1 = speed;
+        // if(label_number == 1 || label_number == 4 || label_number == 5){
+
+        // }
+        // else{
+        //     currentFrequency1 = speed;
+        // }
+    }
+
     private void reset() {
 
         this.isSoftDropActive = false;
@@ -88,7 +116,7 @@ public class Single_Player extends JPanel {
         ArrayList<Integer> temp = makeRandomSequence();
 
         setLabel(temp, label_number);
-        
+
 
         game1.setBounds(390, 100, 601, 700);
 
@@ -100,7 +128,7 @@ public class Single_Player extends JPanel {
         this.addKeyListener(new TetrisListener());
         this.addKeyListener(new rotationListener());
         this.addKeyListener(new softDropListener());
-        
+
         this.timer1 = new Timer(currentFrequency1, new ActionListener(){
 
             @Override
@@ -117,7 +145,6 @@ public class Single_Player extends JPanel {
                     updateCurrentFrequency();
                 }
             }
-
         });
         timer1.setInitialDelay(1);
         this.grabFocus();
@@ -132,16 +159,16 @@ public class Single_Player extends JPanel {
     }
 
     private class softDropListener implements KeyListener {
-        
+
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
-        public void keyPressed(KeyEvent e) 
-        {    
+        public void keyPressed(KeyEvent e)
+        {
             if(e.getKeyCode() == KeyEvent.VK_DOWN && !isSoftDropActive && isActivated)
             {
                 isSoftDropActive = true;
@@ -170,7 +197,7 @@ public class Single_Player extends JPanel {
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -214,7 +241,7 @@ public class Single_Player extends JPanel {
                 }
             }
         }
-        
+
     }
 
 
@@ -223,7 +250,7 @@ public class Single_Player extends JPanel {
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -231,7 +258,7 @@ public class Single_Player extends JPanel {
             // TODO Auto-generated method stub
             if(isActivated)
             {
-                
+
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
                     if (game1.canMoveLeft()==1)
@@ -253,14 +280,14 @@ public class Single_Player extends JPanel {
                     game1.holdPiece();
                     // repaint();
                 }
-                
+
             }
             else
             {
                 activateBoards();
                 isActivated = true;
             }
-            
+
             grabFocus();
 
         }
@@ -268,15 +295,15 @@ public class Single_Player extends JPanel {
         @Override
         public void keyReleased(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
     }
 
     private ArrayList<Integer> makeRandomSequence() {
-        
+
         ArrayList<Integer> result = new ArrayList<Integer>();
-        
+
         for (int i = 0; i < PREFERRED_GAP/7; i++) {
 
             ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -315,7 +342,7 @@ public class Single_Player extends JPanel {
         softFrequency();
     }
 
-    private void softFrequency() 
+    private void softFrequency()
     {
         this.timer1.setInitialDelay(0);
         this.timer1.setDelay(currentFrequency1/softDrop);
