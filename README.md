@@ -55,4 +55,4 @@ We combined our codes.
 Present: Rana, İpek, Selin   Absent: Subatay, Eda
 
 Discussion: 
-We discussed how to present our demos and tried to solve our games final problems.
+We discussed how to present our demos and tried to solve our game's final problems.
