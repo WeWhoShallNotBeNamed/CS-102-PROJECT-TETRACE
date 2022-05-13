@@ -1,20 +1,12 @@
 package Login;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,81 +17,55 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-    
-public class Single_Player extends JPanel {
+
+public class Freezing_mode extends JPanel {
 
     private Tetris_Label game1;
-    public JButton h;
+    public JButton homebf;
+    private Timer freezeTimer;
+    private int freezeIndex = 21;
     private Timer timer1;
     private final int STARTING_FREQUENCY = 1000;
     private int currentFrequency1;
     private boolean isSoftDropActive;
     private int softDrop = 1;
-    private JLabel hold;
-    private JLabel next;
-    private int label_number;
+
     private boolean isActivated;
-    User u;
+
     private final int PREFERRED_GAP = 21;
-   
-    public Single_Player (User u, int i) {
-        this.setLayout(null);
+    User u;
+
+    public Freezing_mode (User u) {
         Icon icon=new ImageIcon("images/home.png");
-        h=new JButton(icon);
-
-        hold=new JLabel();
-        next=new JLabel();
+        homebf=new JButton(icon);
         this.u=u;
-        Border border2=BorderFactory.createBevelBorder(BevelBorder.RAISED,Color.MAGENTA,Color.BLUE);
-        TitledBorder border3=BorderFactory.createTitledBorder(border2,"NEXT");
-        TitledBorder border=BorderFactory.createTitledBorder(border2,"HOLD");
+        this.setLayout(null);
+        homebf.setBounds(1200, 750, 50, 50);
+        this.add(homebf);
 
-        if(i==3){
-            border3.setTitleColor(Color.WHITE);
-            border.setTitleColor(Color.WHITE);
-        }
-        
-        next.setBorder(border3);
-        hold.setBorder(border);
-       
-        hold.setBounds(430,250,130,200);
-        next.setBounds(880,250,130,300);
-        h.setBounds(1200, 750, 50, 50);
-        this.add(hold);
-        this.add(next);
-        this.add(h);
-        label_number=i;
         reset();
 
         this.grabFocus();
     }
 
-    public JButton gethbutton(){
-        return h;
+    public JButton gethbf(){
+        return homebf;
     }
-    public void setLabel(ArrayList<Integer> temp,int number){
-        if(number==1){
-            game1=new Tetris_Label(temp,u);
-        }
-        else if(number==2){
-            game1=new Story_Label(temp,u);
-        }
-        else if(number==3){
-            game1=new Oldschool(temp,u);
-        }
-    }
-    
+
     private void reset() {
-        this.isActivated=true;
+
         this.isSoftDropActive = false;
 
         this.currentFrequency1 = STARTING_FREQUENCY;
 
+        this.isActivated=true;
+
         ArrayList<Integer> temp = makeRandomSequence();
 
-        setLabel(temp, label_number);
-        
-        game1.setBounds(390, 100, 601, 700);
+        this.game1 = new Tetris_Label(temp,u);
+
+
+        game1.setBounds(300, 0, 601, 700);
 
         this.add(game1);
 
@@ -108,7 +74,19 @@ public class Single_Player extends JPanel {
         this.addKeyListener(new TetrisListener());
         this.addKeyListener(new rotationListener());
         this.addKeyListener(new softDropListener());
-        
+
+        this.freezeTimer = new Timer(10000, new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(game1.getRecentIndex() == freezeIndex){
+                    game1.canMoveDown();
+                }
+                game1.freeze(freezeIndex--);
+            }
+
+        });
+
         this.timer1 = new Timer(currentFrequency1, new ActionListener(){
 
             @Override
@@ -121,12 +99,16 @@ public class Single_Player extends JPanel {
                 }
                 if(result==-1)
                 {
+                    //deisik
+                    if(game1.getLastIndex() >= freezeIndex){
+                        freezeTimer.restart();
+                    }
+
                     if(game1.isOver()){
                         deactivateBoards();
                         u.diamonds=u.diamonds+u.score;
                         updateScore();
-                        game1=new Tetris_Label(makeRandomSequence(), u);
-                        reset();
+
                         JOptionPane.showMessageDialog(null, "your score is"+u.score);
                     }
                     else{
@@ -149,16 +131,16 @@ public class Single_Player extends JPanel {
     }
 
     private class softDropListener implements KeyListener {
-        
+
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
-        public void keyPressed(KeyEvent e) 
-        {    
+        public void keyPressed(KeyEvent e)
+        {
             if(e.getKeyCode() == KeyEvent.VK_DOWN && !isSoftDropActive && isActivated)
             {
                 isSoftDropActive = true;
@@ -187,7 +169,7 @@ public class Single_Player extends JPanel {
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -231,15 +213,16 @@ public class Single_Player extends JPanel {
                 }
             }
         }
-        
+
     }
+
 
     private class TetrisListener implements KeyListener {
 
         @Override
         public void keyTyped(KeyEvent e) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -247,7 +230,7 @@ public class Single_Player extends JPanel {
             // TODO Auto-generated method stub
             if(isActivated)
             {
-                
+
                 if(e.getKeyCode() == KeyEvent.VK_LEFT)
                 {
                     if (game1.canMoveLeft()==1)
@@ -269,24 +252,21 @@ public class Single_Player extends JPanel {
                     game1.holdPiece();
                     // repaint();
                 }
-                
             }
-            
             grabFocus();
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             // TODO Auto-generated method stub
-            
-        }
 
+        }
     }
 
     private ArrayList<Integer> makeRandomSequence() {
-        
+
         ArrayList<Integer> result = new ArrayList<Integer>();
-        
+
         for (int i = 0; i < PREFERRED_GAP/7; i++) {
 
             ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -321,36 +301,16 @@ public class Single_Player extends JPanel {
     }
 
     private void updateCurrentFrequency(){
-        currentFrequency1 = STARTING_FREQUENCY * 10 / (10 + game1.getTotalLinesCleared() / 4) ;
+        currentFrequency1 = STARTING_FREQUENCY * 10 / (10 + game1.getTotalLinesCleared() / 5) ;
         softFrequency();
     }
 
-    private void softFrequency() 
+    private void softFrequency()
     {
         this.timer1.setInitialDelay(0);
         this.timer1.setDelay(currentFrequency1/softDrop);
         timer1.restart();
     }
-    @Override
-    public void paintComponent(Graphics g){
-        BufferedImage myPicture=null;
-        try {
-            if(label_number==1)
-                myPicture = ImageIO.read(new File("images/back.png"));
-            else if(label_number==2)
-                myPicture = ImageIO.read(new File("images/kizilay.png"));
-            else if(label_number==3)
-                myPicture = ImageIO.read(new File("images/old_back.png"));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        super.paintComponent(g);
-        g.drawImage(myPicture, 0,0,null);
-    }
-    // public void setSpeed(int speed){
-    //     currentFrequency1 = speed;
-    // }
     public void updateScore(){
         final String DB_URL="jdbc:mysql://localhost:3306/tetrace";
                 final String USERNAME="root";
@@ -368,4 +328,21 @@ public class Single_Player extends JPanel {
                     System.out.println(ex);
                 }
     }
+    @Override
+    public void paintComponent(Graphics g){
+        BufferedImage myPicture=null;
+        try {
+           
+            myPicture = ImageIO.read(new File("images.png"));
+            
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        super.paintComponent(g);
+        g.drawImage(myPicture, 0,0,null);
+    }
 }
+
+
+

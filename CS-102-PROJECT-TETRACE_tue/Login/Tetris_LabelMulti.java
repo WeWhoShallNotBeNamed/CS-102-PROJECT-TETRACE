@@ -9,7 +9,6 @@ import java.awt.*;
 
 import java.awt.Point;
 
-
 public class Tetris_LabelMulti extends JLabel {
     
     private ArrayList<Integer> tetrades;

@@ -25,7 +25,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-
 public class Login extends JPanel{
     User player;
     JButton button_login ;
@@ -63,7 +62,6 @@ public class Login extends JPanel{
         signup.setBorderPainted(false);
         signup.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
         signup.setFocusPainted(false);
-
 
         button_login.setBackground(Color.cyan);
         button_login.setOpaque(true);
@@ -114,7 +112,7 @@ public class Login extends JPanel{
     public JButton getSignupButton(){
         return signup;
     }
-    
+
     public JTextField getUsername(){
         return username;
     }
@@ -127,6 +125,7 @@ public class Login extends JPanel{
     public User getUser(){
        return player;
     }
+    
     @Override
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;

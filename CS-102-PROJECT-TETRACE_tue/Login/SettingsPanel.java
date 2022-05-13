@@ -36,7 +36,6 @@ public class SettingsPanel extends JPanel{
     private ButtonGroup bg;
     private JLabel keyboard;
 
-
     private JSlider soundAdjuster;
     JLabel sound;
     
@@ -85,7 +84,6 @@ public class SettingsPanel extends JPanel{
         exitButton.setBounds( 900, 40, 50, 50 );
         
         homeButton = new JButton(new ImageIcon(home));
-        
         
         add(soundAdjuster);
         add(exitButton);

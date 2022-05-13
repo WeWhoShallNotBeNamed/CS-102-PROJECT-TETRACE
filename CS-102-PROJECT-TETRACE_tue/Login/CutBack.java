@@ -8,16 +8,5 @@ public class CutBack extends PowerUp {
     
     public CutBack() {
         super(PRICE);
-    }
-
-    // @Override
-    // public void apply(JPanel panel) {
-    //     if(panel instanceof Multi_Player){
-    //         //@Override
-    //         // public void actionPerformed(ActionEvent e) {
-               
-                
-    //         // }
-    //     }  
-    // }   
+    } 
 }

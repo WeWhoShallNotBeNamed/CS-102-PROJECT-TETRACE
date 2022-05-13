@@ -24,22 +24,5 @@ public class BlackOut extends PowerUp {
     public BlackOut(User u) {
         super(PRICE);
         u1=u;
-    }
-   
-    // @Override
-    // public void apply(JPanel panel){
-    //     if(panel instanceof Multi_Player){
-    //         if(this.i)
-
-    //         this.timer = new Timer(10000, new ActionListener(){
-    //             @Override
-    //             public void actionPerformed(ActionEvent e) {                    
-    //                 stopBlackOut();
-    //             }
-    //         });
-    //         timer.stop();
-    //     }
-    // }
-    
-    
+    }   
 }

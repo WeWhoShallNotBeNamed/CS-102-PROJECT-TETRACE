@@ -28,6 +28,7 @@ public class Home extends JPanel{
     JButton profile;
     JButton shop;
     JButton leader;
+
     public Home(User u) throws IOException{
         Icon icon_book=new ImageIcon("images/book.png");
         hpb=new JButton(icon_book);
@@ -56,7 +57,6 @@ public class Home extends JPanel{
         leader=new JButton("Leader Board");
         leader.setBounds(1080, 180, 100, 34);
         
-
         Icon icon_settings=new ImageIcon("images/settings.png");
         hs=new JButton(icon_settings);
         hs.setBounds(1100, 700, 39, 34);
@@ -64,16 +64,12 @@ public class Home extends JPanel{
         hs.setBorderPainted(false);
         hs.setFocusPainted(false);
 
-
         Icon icon_shop=new ImageIcon("images/shop.png");
         shop=new JButton(icon_shop);
         shop.setBounds(1100, 600, 39, 34);
         shop.setBackground(Color.LIGHT_GRAY);
         shop.setBorderPainted(false);
         shop.setFocusPainted(false);
-       
-
-
 
         multi=new JButton("Multi Player");
         single=new JButton("Single Player");
@@ -102,7 +98,6 @@ public class Home extends JPanel{
         single.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
         creative.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
 
-
         JLabel group_label = new JLabel("Proudly created by We, Who Shall Not Be Named...");
         BufferedImage myPicture = ImageIO.read(new File("images/bg_game.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
@@ -110,7 +105,6 @@ public class Home extends JPanel{
         this.setLayout(null);
         group_label.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 13));
         group_label.setBounds(530, 760, 500, 100);
-
 
         this.add(shop);
         this.add(leader);

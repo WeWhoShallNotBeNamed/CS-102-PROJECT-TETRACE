@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
-
     
 public class Multi_Player extends JPanel {
 
@@ -109,7 +107,6 @@ public class Multi_Player extends JPanel {
         blackOut2=new JButton(icon1);
         screenSwap2=new JButton(icon2);
         cutBack2=new JButton(icon3);
-
 
         home.setBounds(1220, 850, 50, 30);
 
@@ -395,7 +392,6 @@ public class Multi_Player extends JPanel {
         }
     }
 
-
     private class rotationListener1 implements KeyListener {
 
         boolean isActiveClock = true;
@@ -505,7 +501,6 @@ public class Multi_Player extends JPanel {
         }
         
     }
-
 
     private class TetrisListener1 implements KeyListener {
 

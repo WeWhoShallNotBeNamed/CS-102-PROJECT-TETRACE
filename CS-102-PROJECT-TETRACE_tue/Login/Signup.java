@@ -49,13 +49,10 @@ public class Signup extends JPanel{
         username_label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         password_label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         
-        
         email_label.setBounds(540, 200, 100, 30);
         bio_label.setBounds(540, 250, 100, 30);
         email_label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         bio_label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
-
-
         
         JLabel group_label = new JLabel("Proudly created by We, Who Shall Not Be Named...");
         
@@ -65,7 +62,6 @@ public class Signup extends JPanel{
         signup.setBorderPainted(false);
         signup.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
         signup.setFocusPainted(false);
-
 
         cancel.setBackground(Color.cyan);
         cancel.setOpaque(true);
@@ -122,4 +118,3 @@ public class Signup extends JPanel{
         g.drawImage(myPicture, 0,0,null);
     }
 }
-

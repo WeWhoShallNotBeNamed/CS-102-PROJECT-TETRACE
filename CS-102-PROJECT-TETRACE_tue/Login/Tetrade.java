@@ -193,5 +193,4 @@ public abstract class Tetrade {
     public int getID() {
         return ID;
     }
-
 }

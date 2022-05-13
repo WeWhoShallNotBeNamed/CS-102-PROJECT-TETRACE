@@ -24,11 +24,11 @@ import javax.swing.JTextField;
 
 public class Edit_Profile extends JPanel {
     JPanel panel_cont;
+
     //sol taraf
     JLabel username_header;
     JLabel bio_header;
-    BufferedImage level_img;//you can do this with paintComponent
-
+    BufferedImage level_img;
 
     JLabel username;
     ImageIcon profile_pic;
@@ -36,13 +36,12 @@ public class Edit_Profile extends JPanel {
     JLabel puzzles;
     JLabel repository;
     JButton edit_profile;
+
     //edit part-orta
     JLabel Password;
     JLabel Username;
     JLabel e_mail_label;
     JLabel History;
-
-
 
     JTextField password;
     JTextField username_edit;
@@ -56,7 +55,6 @@ public class Edit_Profile extends JPanel {
         this.u=u;
         username=new JLabel(""+u.username);
         biography=new JLabel(""+u.bio);
-
 
         username.setBounds(200, 100, 200, 50);
         biography.setBounds(200, 200, 200, 100);
@@ -77,7 +75,6 @@ public class Edit_Profile extends JPanel {
         username_edit=new JTextField(""+u.username);
         e_mail=new JTextField(""+u.e_mail);
         bio=new JTextArea(""+u.bio);
-
 
         this.setLayout(null);
         Password.setBounds(500, 200, 100, 20);
@@ -105,7 +102,6 @@ public class Edit_Profile extends JPanel {
         save.setBackground(Color.CYAN);
         save.setFocusPainted(false);
         this.add(save);
-
 
         save.addActionListener(new ActionListener() {
 
@@ -149,6 +145,7 @@ public class Edit_Profile extends JPanel {
        u.bio=bio.getText();
        u.e_mail=e_mail.getText();
     }
+
     @Override
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;

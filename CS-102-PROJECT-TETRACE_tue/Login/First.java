@@ -85,7 +85,6 @@ public class First {
             }
         });
 
-
         JButton b1=login_panel.getLoginButton();
         b1.addActionListener(new ActionListener() {
             JTextField username=login_panel.getUsername();
@@ -118,11 +117,13 @@ public class First {
         frame.pack();
         frame.setVisible(true);
     }
+
     public User getExistingUser(String UserName,String Password){
         User user=null;
         final String DB_URL="jdbc:mysql://localhost:3306/tetrace";
         final String USERNAME="root";
         final String PASSWORD="zeynepasel3";
+
         try{
             Connection conn=DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
             String sql="SELECT * FROM users where UserName=? AND Password=?";
@@ -161,8 +162,6 @@ public class First {
         return user;
     }
 
-
-
     public void add_database(User player){
         String player_username=player.username;
         String player_password=player.password;
@@ -184,7 +183,7 @@ public class First {
             
             preparedStatement.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "registered successfully");
+            JOptionPane.showMessageDialog(null, "Registered successfully!");
             conn.close();
         }
         catch(Exception e){
@@ -208,7 +207,7 @@ public class First {
     {
         try
         {
-            AudioInputStream input = AudioSystem.getAudioInputStream(new File("images/"+song+".wav"));
+            AudioInputStream input = AudioSystem.getAudioInputStream(new File("theme/theme.wav"));
             stream = AudioSystem.getClip();
             stream.open(input);
             fc=(FloatControl)stream.getControl(FloatControl.Type.MASTER_GAIN);

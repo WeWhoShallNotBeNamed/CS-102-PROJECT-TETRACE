@@ -23,7 +23,6 @@ public abstract class PowerUp extends JPanel{
         return numberOfOwned;
     }
 
-
     public boolean isActive(){
         return isActive;
     }
@@ -36,6 +35,4 @@ public abstract class PowerUp extends JPanel{
     public boolean isOwned(){
         return isOwned;
     }
-    
-    //public abstract void apply(JPanel panel);
 }

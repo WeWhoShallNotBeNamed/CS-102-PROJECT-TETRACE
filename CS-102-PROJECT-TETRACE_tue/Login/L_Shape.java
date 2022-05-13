@@ -22,5 +22,4 @@ public class L_Shape extends Tetrade {
         this.blocks[3] = new Point(7,3);
         this.cordinates = L_CORDINATES;
     }
-
 }

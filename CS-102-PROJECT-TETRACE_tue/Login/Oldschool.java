@@ -37,5 +37,4 @@ public class Oldschool extends Tetris_Label{
             return null;
         }
     }
-
 }

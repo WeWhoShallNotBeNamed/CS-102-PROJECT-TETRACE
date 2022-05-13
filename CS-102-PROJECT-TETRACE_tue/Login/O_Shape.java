@@ -22,6 +22,4 @@ public class O_Shape extends Tetrade {
         blocks[2] = new Point(6,3);
         blocks[3] = new Point(7,3);
     }
-
-
 }

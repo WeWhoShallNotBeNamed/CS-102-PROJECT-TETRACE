@@ -26,10 +26,8 @@ public class LeaderBoard extends JPanel{
     JButton homeoflead;
     public LeaderBoard(){
 
-
         Icon home = new ImageIcon( "images/home.png" ) ;
         homeoflead=new JButton(home);
-
 
         this.setLayout(null);
         User[] leadUsers=getTop(getExistingUser());
@@ -51,6 +49,7 @@ public class LeaderBoard extends JPanel{
         this.add(second);
         this.add(third);
     }
+
     @Override
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;
@@ -120,6 +119,5 @@ public class LeaderBoard extends JPanel{
             to_return.remove(maximum);
         }
         return leaders;
-    }
-    
+    }  
 }

@@ -45,7 +45,6 @@ public class ShopPanel extends JPanel{
     private JButton howToPlayButton;
     User user;
 
-
     public ShopPanel(User u){
         user=u;
         money=new JLabel(""+user.diamonds);
@@ -76,7 +75,6 @@ public class ShopPanel extends JPanel{
         }
         catch( IOException exception ){}
     }
-    
  
     public void setButtons(){
         purchaseButton1 = new JButton(  purchase);
@@ -131,7 +129,6 @@ public class ShopPanel extends JPanel{
     public JButton getHowToPlayButton(){
         return homeButton;
     }
-
 
     private class Purchase1Listener implements ActionListener{
         public void actionPerformed(ActionEvent event){

@@ -20,11 +20,8 @@ import javax.swing.JSlider;
 
 public class HowToPlayPanel extends JPanel{
     private Image exit;
-    
-
     private JButton exitButton;
-    
-    
+
     public HowToPlayPanel() throws IOException{
        
         setLayout( null );
@@ -44,14 +41,15 @@ public class HowToPlayPanel extends JPanel{
     }
     
     public void paintComponent( Graphics g ){
-        
         super.paintComponent(g);
         BufferedImage myPicture=null;
+
         try {
             myPicture = ImageIO.read(new File("images/back.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Graphics2D g2=(Graphics2D)g;
         g2.setStroke(new BasicStroke(4));
         g.drawImage(myPicture, 0,0,null);
@@ -63,5 +61,4 @@ public class HowToPlayPanel extends JPanel{
     public JButton getExitButton(){
         return exitButton;
     }
-    
 }

@@ -139,7 +139,7 @@ public class Second extends JPanel{
                 u2 = getExistingUser(name, password);
                 player.updateScore();
                 u2.updateScore();
-                 mp = new Multi_Player(u, u2);
+                mp = new Multi_Player(u, u2);
                 JButton multi_home=mp.getHomeButton();
                 multi_home.addActionListener(new ActionListener() {
 
@@ -375,5 +375,4 @@ public class Second extends JPanel{
         }
         return user;
     }
-    
 }
