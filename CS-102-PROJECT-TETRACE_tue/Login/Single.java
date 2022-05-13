@@ -55,7 +55,7 @@ public class Single extends JPanel{
         story.setBounds(610, 700, 200, 80);
 
         JLabel group_label = new JLabel("Proudly created by We, Who Shall Not Be Named...");
-        BufferedImage myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/bg_game.png"));
+        BufferedImage myPicture = ImageIO.read(new File("images/bg_game.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         picLabel.setBounds(610,200,180,180);
         this.setLayout(null);
@@ -75,7 +75,7 @@ public class Single extends JPanel{
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;
         try {
-            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/success.png"));
+            myPicture = ImageIO.read(new File("images/success.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

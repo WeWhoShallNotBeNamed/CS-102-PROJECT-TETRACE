@@ -1,7 +1,11 @@
 package Login;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
@@ -18,13 +22,16 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 
     
 public class Single_Player extends JPanel {
 
     private Tetris_Label game1;
-    
+    public JButton h;
     private Timer timer1;
     private final int STARTING_FREQUENCY = 1000;
     private int currentFrequency1;
@@ -36,9 +43,14 @@ public class Single_Player extends JPanel {
     private boolean isActivated;
     User u;
     private final int PREFERRED_GAP = 21;
+    //public Timer speedTimer;
 
 
     public Single_Player (User u, int i) {
+        this.setLayout(null);
+        Icon icon=new ImageIcon("images/home.png");
+        h=new JButton(icon);
+
         hold=new JLabel();
         next=new JLabel();
         this.u=u;
@@ -56,15 +68,19 @@ public class Single_Player extends JPanel {
        
         hold.setBounds(430,250,130,200);
         next.setBounds(880,250,130,300);
+        h.setBounds(1200, 750, 50, 50);
         this.add(hold);
         this.add(next);
-        this.setLayout(null);
+        this.add(h);
         label_number=i;
         reset();
 
         this.grabFocus();
     }
 
+    public JButton gethbutton(){
+        return h;
+    }
     public void setLabel(ArrayList<Integer> temp,int number){
         if(number==1){
             game1=new Tetris_Label(temp,u);
@@ -81,7 +97,7 @@ public class Single_Player extends JPanel {
         this.isActivated=true;
         this.isSoftDropActive = false;
 
-        this.currentFrequency1 = STARTING_FREQUENCY;
+       this.currentFrequency1 = STARTING_FREQUENCY;
 
 
         ArrayList<Integer> temp = makeRandomSequence();
@@ -114,6 +130,11 @@ public class Single_Player extends JPanel {
                 {
                     if(game1.isOver()){
                         deactivateBoards();
+                        u.diamonds=u.diamonds+u.score;
+                        updateScore();
+                        game1=new Tetris_Label(makeRandomSequence(), u);
+                        reset();
+                        JOptionPane.showMessageDialog(null, "your score is"+u.score);
                     }
                     else{
                     updateSequences();
@@ -309,7 +330,7 @@ public class Single_Player extends JPanel {
     }
 
     private void updateCurrentFrequency(){
-        currentFrequency1 = STARTING_FREQUENCY * 10 / (10 + game1.getTotalLinesCleared() / 5) ;
+        currentFrequency1 = STARTING_FREQUENCY * 10 / (10 + game1.getTotalLinesCleared() / 4) ;
         softFrequency();
     }
 
@@ -324,16 +345,36 @@ public class Single_Player extends JPanel {
         BufferedImage myPicture=null;
         try {
             if(label_number==1)
-                myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/back.png"));
+                myPicture = ImageIO.read(new File("images/back.png"));
             else if(label_number==2)
-                myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/kizilay.png"));
+                myPicture = ImageIO.read(new File("images/kizilay.png"));
             else if(label_number==3)
-                myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/old_back.png"));
+                myPicture = ImageIO.read(new File("images/old_back.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         super.paintComponent(g);
         g.drawImage(myPicture, 0,0,null);
+    }
+    // public void setSpeed(int speed){
+    //     currentFrequency1 = speed;
+    // }
+    public void updateScore(){
+        final String DB_URL="jdbc:mysql://localhost:3306/tetrace";
+                final String USERNAME="root";
+                final String PASSWORD="zeynepasel3";
+                try{
+                    
+                    Connection conn=DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
+                    String sql="update users set money=? where UserName=?";
+                    PreparedStatement preparedStatement=conn.prepareStatement(sql);
+                    preparedStatement.setString(1,""+u.diamonds);
+                    preparedStatement.setString(2,""+u.username);
+                    preparedStatement.execute();
+                }
+                catch(Exception ex){
+                    System.out.println(ex);
+                }
     }
 }

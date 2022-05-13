@@ -25,7 +25,8 @@ public class Second extends JPanel{
     FloatControl fc;
     Clip stream;
     User player;
-    
+    User u2;
+    Multi_Player mp ;
     
     public Second(User u,Clip clip,FloatControl fc) throws IOException{
         
@@ -39,6 +40,8 @@ public class Second extends JPanel{
         Freezing_mode game_freezing=new Freezing_mode(u);
         Single_Player game_story=new Single_Player(u,2);
         Single_Player game_oldschool=new Single_Player(u,3);
+        LeaderBoard leaderBoard=new LeaderBoard();
+        ShopPanel shop=new ShopPanel(u);
 
         Profile profile=new Profile(u, panel_cont);
         CardLayout cl=new CardLayout();
@@ -54,19 +57,100 @@ public class Second extends JPanel{
         panel_cont.add(game_story,"9");
         panel_cont.add(game_oldschool,"10");
         panel_cont.add(profile,"11");
+        panel_cont.add(shop,"12");
+        panel_cont.add(leaderBoard,"13");
         
         cl.show(this,"1");
 
+        JButton hol=leaderBoard.gethol();
+        hol.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "1");
+            }
+            
+        });
+
+
+        JButton top=home_panel.getLeaderButton();
+        top.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont,"13");
+            }
+            
+        });
+
+
+        JButton h1=game_oldschool.gethbutton();
+        h1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "1");
+            }
+            
+        });
+
+        JButton h2=game_story.gethbutton();
+        h2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "1");
+            }
+            
+        });
+
+        JButton h3=game_single.gethbutton();
+        h3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "1");
+            }
+            
+        });
+
+       JButton lasthome=game_freezing.gethbf();
+       lasthome.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            cl.show(panel_cont, "1");
+        }
+           
+       });
         JButton home_multi=home_panel.getMultiButton();
         home_multi.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name;
-                name=JOptionPane.showInputDialog(null, "firstname");
+                String name=JOptionPane.showInputDialog(null, "firstname");
                 String password = JOptionPane.showInputDialog(null, "password");
-                User u2= getExistingUser(name, password);
-                Multi_Player mp = new Multi_Player(u, u2);
+                u2 = getExistingUser(name, password);
+                player.updateScore();
+                u2.updateScore();
+                 mp = new Multi_Player(u, u2);
+                JButton multi_home=mp.getHomeButton();
+                multi_home.addActionListener(new ActionListener() {
+
+                    // mp.game1.isOver=true;
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // TODO Auto-generated method stub
+                        cl.show(panel_cont, "1");
+                    }
+                    
+                });
                 panel_cont.add(mp,"3");
                 cl.show(panel_cont, "3");
             }
@@ -204,6 +288,52 @@ public class Second extends JPanel{
             }
             
         });
+
+        JButton shopb=home_panel.getShopButton();
+        shopb.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                shop.updatePage();
+                cl.show(panel_cont, "12");
+            }
+            
+        });
+
+        JButton shop_home=shop.getHomeButton();
+        shop_home.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "1");
+            }
+            
+        });
+
+        JButton shop_setting=shop.getSettingsButton();
+        shop_setting.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "6");
+            }
+            
+        });
+
+        JButton shop_how=shop.getHowToPlayButton();
+        shop_how.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                cl.show(panel_cont, "5");
+            }
+            
+        });
+       
     }
     public CardLayout getCardLayout(){
         return cl;
@@ -230,6 +360,12 @@ public class Second extends JPanel{
                 user.password=resultSet.getString("Password");
                 user.e_mail=resultSet.getString("e_mail");
                 user.bio=resultSet.getString("bio");
+                user.score=resultSet.getInt("score");
+                user.bo=resultSet.getInt("bo");
+                user.cb=resultSet.getInt("cb");
+                user.ss=resultSet.getInt("ss");
+                user.diamonds=resultSet.getInt("money");
+                user.setRepo();
             }
             preparedStatement.close();
             conn.close();
@@ -239,4 +375,5 @@ public class Second extends JPanel{
         }
         return user;
     }
+    
 }

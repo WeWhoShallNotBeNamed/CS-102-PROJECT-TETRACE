@@ -70,8 +70,8 @@ public class SettingsPanel extends JPanel{
     
     public void setImages(){
         try{
-            home = ImageIO.read( new File( "/Users/eslimranaemiroglu/Desktop/home.png" ) );
-            exit = ImageIO.read( new File( "/Users/eslimranaemiroglu/Desktop/exit.png" ) );
+            home = ImageIO.read( new File( "images/home.png" ) );
+            exit = ImageIO.read( new File( "images/exit.png" ) );
         }
         catch( IOException exception ){}
     }
@@ -96,7 +96,7 @@ public class SettingsPanel extends JPanel{
         super.paintComponent(g);
         BufferedImage myPicture=null;
         try {
-            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/success.png"));
+            myPicture = ImageIO.read(new File("images/success.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

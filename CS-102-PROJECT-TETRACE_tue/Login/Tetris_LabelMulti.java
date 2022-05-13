@@ -28,6 +28,8 @@ public class Tetris_LabelMulti extends JLabel {
     private final int xBase = 240;
     private final int yBase = 25;
 
+    JLabel score;
+
     static final int HEIGHT = 22;
     static final int SIDE_OF_RECTANGLE = 30;
     private final int[][] INITIAL_MAIN_BOARD =
@@ -60,6 +62,7 @@ public class Tetris_LabelMulti extends JLabel {
 
     public Tetris_LabelMulti(ArrayList<Integer> tetrades, User u,User u2)
     {
+
         user=u;
         this.u2=u2;
         this.currentMainBoard = INITIAL_MAIN_BOARD;
@@ -67,7 +70,6 @@ public class Tetris_LabelMulti extends JLabel {
         this.tetrades = new ArrayList<>();
 
         this.currentIndex = -1;
-
         this.addNewTetrades(tetrades);
 
         nextTetrade();
@@ -156,6 +158,7 @@ public class Tetris_LabelMulti extends JLabel {
 
                 if(hasBlock) {
                     linesCleared++;
+                    user.increaseScore(500);
                 }
                 else{
                     board[i+linesCleared] = board[i];
@@ -177,8 +180,7 @@ public class Tetris_LabelMulti extends JLabel {
         }
 
         totalLinesCleared+=linesCleared;
-        user.increaseScore(100);
-
+        
     }
 
     @Override
@@ -186,7 +188,7 @@ public class Tetris_LabelMulti extends JLabel {
         long current=System.currentTimeMillis();
         // TODO Auto-generated method stub
         super.paint(g);
-       
+
         int[][] tempBoard = makeTempBoard();
 
         if(holdingTetrade!=0){
@@ -196,7 +198,7 @@ public class Tetris_LabelMulti extends JLabel {
                 int xCordinate = xBase + (int)(block.getX()-11)*SIDE_OF_RECTANGLE;
                 int yCordinate = yBase + (int)(block.getY())*SIDE_OF_RECTANGLE + 90;
 
-                if((u2.bo>0 && u2.getBlackOut().isActive==true && current-u2.getBlackOut().start<=tenseconds)){//&& user.getBlackOut().isActive()==true 
+                if((u2.getBlackOut()!=null && u2.bo>-1 && u2.getBlackOut().isActive==true && current-u2.getBlackOut().start<=tenseconds)){//&& user.getBlackOut().isActive()==true 
                     g.drawImage(new ImageIcon("images/black.png").getImage(), xCordinate, yCordinate, null);
                 }
                 else {
@@ -214,7 +216,7 @@ public class Tetris_LabelMulti extends JLabel {
                 int xCordinate = xBase + (int)(block.getX()+4)*SIDE_OF_RECTANGLE;
                 int yCordinate = yBase + (int)(block.getY())*SIDE_OF_RECTANGLE + 90*i;
 
-                if(u2.bo>0 && u2.getBlackOut().isActive==true && current-u2.getBlackOut().start<=tenseconds){//&& user.getBlackOut().isActive()==true 
+                if(u2.getBlackOut()!=null && u2.bo>-1 && u2.getBlackOut().isActive==true && current-u2.getBlackOut().start<=tenseconds){//&& user.getBlackOut().isActive()==true 
                     g.drawImage(new ImageIcon("images/black.png").getImage(), xCordinate, yCordinate, null);
                     
                 }
@@ -234,7 +236,7 @@ public class Tetris_LabelMulti extends JLabel {
 
                 int xCordinate = xBase + SIDE_OF_RECTANGLE*(j-2);
 
-                if(u2.bo>0 && u2.getBlackOut().isActive==true && System.currentTimeMillis()-u2.getBlackOut().start<=tenseconds){
+                if(u2.getBlackOut()!=null && u2.bo>-1 && u2.getBlackOut().isActive==true && System.currentTimeMillis()-u2.getBlackOut().start<=tenseconds){
                     g.drawImage(new ImageIcon("images/black.png").getImage(), xCordinate, yCordinate, null);
                 }
                 else {
@@ -245,10 +247,7 @@ public class Tetris_LabelMulti extends JLabel {
             }
 
         }
-        
-
-        //this.getParent().printAll(g);
-
+      
     }
 
     int[][] makeTempBoard() {
@@ -389,4 +388,14 @@ public class Tetris_LabelMulti extends JLabel {
     public int getLastIndex(){
         return (int)(this.previousFigure.blocks[3].getY());
     }
+    public boolean isOver(){
+        for(int i=0;i<currentFigure.blocks.length;i++){
+            Point block=currentFigure.blocks[i];
+            if(currentMainBoard[(int)(block.getY())][(int)(block.getX())]!=0){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

@@ -137,6 +137,20 @@ public class First {
                 user.password=resultSet.getString("Password");
                 user.e_mail=resultSet.getString("e_mail");
                 user.bio=resultSet.getString("bio");
+                user.score=resultSet.getInt("score");
+                user.diamonds=resultSet.getInt("money");
+                user.bo=resultSet.getInt("bo");
+                user.cb=resultSet.getInt("cb");
+                user.ss=resultSet.getInt("ss");
+                for(int i=0;i<user.bo;i++){
+                    user.repo.add(new BlackOut(user));
+                }
+                for(int i=0;i<user.cb;i++){
+                    user.repo.add(new CutBack());
+                }
+                for(int i=0;i<user.ss;i++){
+                    user.repo.add(new ScreenSwap());
+                }
             }
             preparedStatement.close();
             conn.close();
@@ -194,7 +208,7 @@ public class First {
     {
         try
         {
-            AudioInputStream input = AudioSystem.getAudioInputStream(new File("/Users/eslimranaemiroglu/Desktop/"+song+".wav"));
+            AudioInputStream input = AudioSystem.getAudioInputStream(new File("images/"+song+".wav"));
             stream = AudioSystem.getClip();
             stream.open(input);
             fc=(FloatControl)stream.getControl(FloatControl.Type.MASTER_GAIN);

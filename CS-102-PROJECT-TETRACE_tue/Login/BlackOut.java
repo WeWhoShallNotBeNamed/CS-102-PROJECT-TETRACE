@@ -41,7 +41,5 @@ public class BlackOut extends PowerUp {
     //     }
     // }
     
-    public void stopBlackOut(){
-        u1.getBlackOut().isActive = false;
-    }
+    
 }

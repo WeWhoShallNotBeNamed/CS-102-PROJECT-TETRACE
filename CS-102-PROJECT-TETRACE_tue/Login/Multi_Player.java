@@ -4,6 +4,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -15,6 +16,9 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 
     
@@ -23,6 +27,8 @@ public class Multi_Player extends JPanel {
     private Tetris_LabelMulti game1;
     private Tetris_LabelMulti game2;
     
+    JLabel score;
+    JLabel score2;
     private Timer timer1;
     private Timer timer2;
     private final int STARTING_FREQUENCY = 1000;
@@ -63,9 +69,19 @@ public class Multi_Player extends JPanel {
     JLabel u2cb;
     JLabel u1ss;
     JLabel u2ss;
-
+    boolean u1bo_isclicked;
+    JButton home;
    
     public Multi_Player (User u1,User u2) {
+        user1=u1;
+        user2=u2;
+        user1.score=0;
+        user2.score=0;
+        score=new JLabel(""+user1.score);
+        score2=new JLabel(""+user2.score);
+        score.setBounds(350, 30, 100, 30);
+        score2.setBounds(950, 30, 100, 30);
+        home=new JButton("home");
         int blackOutu1=u1.bo;
         int blackOutu2=u2.bo;
 
@@ -75,12 +91,12 @@ public class Multi_Player extends JPanel {
         int cutBacku1=u1.cb;
         int cutBacku2=u2.cb;
 
-        u1bo=new JLabel(String.valueOf(blackOutu1));
-        u2bo=new JLabel(String.valueOf(blackOutu2));
-        u1ss=new JLabel(String.valueOf(screenSwapu1));
-        u2ss=new JLabel(String.valueOf(screenSwapu2));
-        u1cb=new JLabel(String.valueOf(cutBacku1));
-        u2cb=new JLabel(String.valueOf(cutBacku2));
+        u1bo=new JLabel(""+blackOutu1);
+        u2bo=new JLabel(""+blackOutu2);
+        u1ss=new JLabel(""+screenSwapu1);
+        u2ss=new JLabel(""+screenSwapu2);
+        u1cb=new JLabel(""+cutBacku1);
+        u2cb=new JLabel(""+cutBacku2);
 
         this.setLayout(null);
         Icon icon1=new ImageIcon("images/blackOut.png");
@@ -94,22 +110,25 @@ public class Multi_Player extends JPanel {
         screenSwap2=new JButton(icon2);
         cutBack2=new JButton(icon3);
 
-        u1bo.setBounds(80, 420, 40, 40);;
-        u2bo.setBounds(1250, 420, 40, 40);;
-        
-        u1ss.setBounds(80, 470, 40, 40);;
-        u2ss.setBounds(1250, 470, 40, 40);;
-        
-        u1cb.setBounds(80, 520, 40, 40);;
-        u2cb.setBounds(1250, 520, 40, 40);
 
-        blackOut.setBounds(30, 420, 40, 40);
-        screenSwap.setBounds(30, 470, 40, 40);
-        cutBack.setBounds(30, 520, 40, 40);
+        home.setBounds(1220, 850, 50, 30);
 
-        blackOut2.setBounds(1200, 420, 40, 40);
-        screenSwap2.setBounds(1200, 470, 40, 40);
-        cutBack2.setBounds(1200, 520, 40, 40);
+        u1bo.setBounds(160, 490, 40, 40);;
+        u2bo.setBounds(1330, 490, 40, 40);;
+        
+        u1ss.setBounds(160, 540, 40, 40);;
+        u2ss.setBounds(1330, 540, 40, 40);;
+        
+        u1cb.setBounds(160, 590, 40, 40);;
+        u2cb.setBounds(1330, 590, 40, 40);
+
+        blackOut.setBounds(110, 490, 40, 40);
+        screenSwap.setBounds(110, 540, 40, 40);
+        cutBack.setBounds(110, 590, 40, 40);
+
+        blackOut2.setBounds(1280, 490, 40, 40);
+        screenSwap2.setBounds(1280, 540, 40, 40);
+        cutBack2.setBounds(1280, 590, 40, 40);
 
         blackOut.setOpaque(false);
         blackOut.setContentAreaFilled(false);
@@ -139,9 +158,24 @@ public class Multi_Player extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                if(u1.bo>0){
                 u1.getBlackOut().isActive=true;
                 u1.getBlackOut().start=System.currentTimeMillis();
+                u1.bo--;
+                updatePage();}
+            }
+            
+        });
+
+        blackOut2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(u2.bo>0){
+                u2.getBlackOut().isActive=true;
+                u2.getBlackOut().start=System.currentTimeMillis();
+                u2.bo--;
+                updatePage();}
             }
             
         });
@@ -151,13 +185,27 @@ public class Multi_Player extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
+            if(u1.cb>0)
                 u2.decreaseScore(100);
                 u1.cb--;
-                u1.repo.remove(u1.getCutBack());
+                updatePage();
             }
             
         });
         
+        cutBack2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+            if(u2.cb>0)
+                u1.decreaseScore(100);
+                u2.cb--;
+                updatePage();
+            }
+        });
+        
+        this.add(home);
         this.add(blackOut);
         this.add(blackOut2);
         this.add(screenSwap);
@@ -170,15 +218,17 @@ public class Multi_Player extends JPanel {
         this.add(u2ss);
         this.add(u1cb);
         this.add(u2cb);
-
-        user1=u1;
-        user2=u2;
+        this.add(score);
+        this.add(score2);
+        
         reset();
        
         this.grabFocus();
     }
 
     private void reset() {
+        this.isActivated = true;
+
 
         this.isSoftDropActive1 = false;
         this.isSoftDropActive2 = false;
@@ -186,16 +236,15 @@ public class Multi_Player extends JPanel {
         this.currentFrequency1 = STARTING_FREQUENCY;
         this.currentFrequency2 = STARTING_FREQUENCY;
 
-        this.isActivated = false;
-
+       
         ArrayList<Integer> temp = makeRandomSequence();
 
         this.game1 = new Tetris_LabelMulti(temp,user1,user2);
         this.game2 = new Tetris_LabelMulti(temp,user2,user1);
         
 
-        game1.setBounds(0, 0, 601, 700);
-        game2.setBounds(601, 0, 601, 700);
+        game1.setBounds(50, 50, 601, 700);
+        game2.setBounds(721, 50, 601, 700);
 
         this.add(game1);
         this.add(game2);
@@ -223,8 +272,32 @@ public class Multi_Player extends JPanel {
                 }
                 if(result==-1)
                 {
-                    updateSequences();
-                    updateCurrentFrequency1();
+                    if(game1.isOver() || game2.isOver()){
+                        deactivateBoards();
+                        user1.diamonds=user1.diamonds+user1.score;
+                        user2.diamonds=user2.diamonds+user2.score;
+                        User winner=new User();
+                        if(user1.score>user2.score){
+                            winner=user1;
+                        }
+                        else if(user1.score<user2.score){
+                            winner =user2;
+                        }
+                        else if(user1.score==user2.score && game1.isOver()==true){
+                            winner =user2;
+                        }
+                        else if(user1.score==user2.score && game2.isOver()==true){
+                            winner =user1;
+                        }
+                        user1.updateScore();
+                        user2.updateScore();
+                        JOptionPane.showMessageDialog(null, "the winner is "+winner.username);
+                        
+                    }
+                    else{
+                        updateSequences();
+                        updateCurrentFrequency1();
+                    }
                 }
             }
 
@@ -471,11 +544,6 @@ public class Multi_Player extends JPanel {
                 }
                 
             }
-            else
-            {
-                activateBoards();
-                isActivated = true;
-            }
             
             grabFocus();
 
@@ -571,11 +639,10 @@ public class Multi_Player extends JPanel {
         }
     }
 
-    private void activateBoards() {
-        timer1.setInitialDelay(0);
-        timer2.setInitialDelay(0);
-        this.timer1.start();
-        this.timer2.start();
+    private void deactivateBoards() {
+        this.isActivated = false;
+        this.timer1.stop();
+        this.timer2.stop();
     }
 
     private void updateCurrentFrequency1(){
@@ -606,7 +673,7 @@ public class Multi_Player extends JPanel {
         BufferedImage myPicture=null;
         try {
             
-            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/old_back.png"));
+            myPicture = ImageIO.read(new File("images/multiback.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -615,5 +682,17 @@ public class Multi_Player extends JPanel {
         g.drawImage(myPicture, 0,0,null);
 
     }
-    
+    public JButton getHomeButton(){
+        return home;
+    }
+    public void updatePage(){
+        u1bo.setText(""+user1.bo);
+        u2bo.setText(""+user2.bo);
+        u1cb.setText(""+user1.cb);
+        u2cb.setText(""+user2.cb);
+        u1ss.setText(""+user1.ss);
+        u2ss.setText(""+user2.ss);
+        score.setText(""+user1.score);
+        score2.setText(""+user2.score);
+    }
 }

@@ -26,28 +26,51 @@ public class Home extends JPanel{
     JButton hpb;
     JButton hs;
     JButton profile;
+    JButton shop;
+    JButton leader;
     public Home(User u) throws IOException{
-        Icon icon_book=new ImageIcon("/Users/eslimranaemiroglu/Desktop/book.png");
+        Icon icon_book=new ImageIcon("images/book.png");
         hpb=new JButton(icon_book);
         hpb.setBounds(1100, 750, 39, 34);
         hpb.setBackground(Color.LIGHT_GRAY);
         hpb.setBorderPainted(false);
         hpb.setFocusPainted(false);
-        
+        Icon icon_profile=new ImageIcon("images/profile_rus.png");
+        if(u.diamonds>=5000 && u.diamonds<10000){
+            icon_profile=new ImageIcon("images/level1_badge.png");
+        }
 
-        Icon icon_profile=new ImageIcon("/Users/eslimranaemiroglu/Desktop/profile_rus.png");
+        else if(u.diamonds>=10000 && u.diamonds<15000){
+            icon_profile=new ImageIcon("images/level2_badge.png");
+        }
+
+        else if(u.diamonds>=15000 && u.diamonds<20000){
+            icon_profile=new ImageIcon("images/level3_badge.png");
+        }
+        
         profile=new JButton(icon_profile);
-        profile.setBounds(1100, 100, 39, 34);
+        profile.setBounds(1100, 50, 80, 80);
         profile.setBorderPainted(false);
         profile.setFocusPainted(false);
        
+        leader=new JButton("Leader Board");
+        leader.setBounds(1080, 180, 100, 34);
+        
 
-        Icon icon_settings=new ImageIcon("/Users/eslimranaemiroglu/Desktop/settings.png");
+        Icon icon_settings=new ImageIcon("images/settings.png");
         hs=new JButton(icon_settings);
         hs.setBounds(1100, 700, 39, 34);
         hs.setBackground(Color.LIGHT_GRAY);
         hs.setBorderPainted(false);
         hs.setFocusPainted(false);
+
+
+        Icon icon_shop=new ImageIcon("images/shop.png");
+        shop=new JButton(icon_shop);
+        shop.setBounds(1100, 600, 39, 34);
+        shop.setBackground(Color.LIGHT_GRAY);
+        shop.setBorderPainted(false);
+        shop.setFocusPainted(false);
        
 
 
@@ -81,7 +104,7 @@ public class Home extends JPanel{
 
 
         JLabel group_label = new JLabel("Proudly created by We, Who Shall Not Be Named...");
-        BufferedImage myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/bg_game.png"));
+        BufferedImage myPicture = ImageIO.read(new File("images/bg_game.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         picLabel.setBounds(610,200,180,180);
         this.setLayout(null);
@@ -89,6 +112,8 @@ public class Home extends JPanel{
         group_label.setBounds(530, 760, 500, 100);
 
 
+        this.add(shop);
+        this.add(leader);
         this.add(profile);
         this.add(hpb);
         this.add(hs);
@@ -103,7 +128,7 @@ public class Home extends JPanel{
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;
         try {
-            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/success.png"));
+            myPicture = ImageIO.read(new File("images/success.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,6 +157,12 @@ public class Home extends JPanel{
     }
     public JButton getProfileButton(){
         return profile;
+    }
+    public JButton getShopButton(){
+        return shop;
+    }
+    public JButton getLeaderButton(){
+        return leader;
     }
 }
 

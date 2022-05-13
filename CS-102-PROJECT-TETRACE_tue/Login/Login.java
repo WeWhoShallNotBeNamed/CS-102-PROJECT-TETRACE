@@ -35,7 +35,7 @@ public class Login extends JPanel{
     JButton show ;
     boolean show_hide=false;
     public Login() throws IOException{
-        Icon icon=new ImageIcon("/Users/eslimranaemiroglu/Desktop/LOGIN.png");
+        Icon icon=new ImageIcon("images/LOGIN.png");
         button_login =new JButton(icon);
     
         username=new JTextField();
@@ -51,7 +51,7 @@ public class Login extends JPanel{
         password_label.setBounds(500, 540, 150, 30);
         username_label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));
         password_label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));
-        BufferedImage myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/bg_game.png"));
+        BufferedImage myPicture = ImageIO.read(new File("images/bg_game.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         picLabel.setBounds(610,200,180,180);
         button_login.setBounds(820,590,78,29);
@@ -75,7 +75,7 @@ public class Login extends JPanel{
         group_label.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 13));
         group_label.setBounds(530, 760, 500, 100);
 
-        Icon icon2=new ImageIcon("/Users/eslimranaemiroglu/Desktop/show.png");
+        Icon icon2=new ImageIcon("images/show.png");
         show=new JButton(icon2);
         show.addActionListener(new ActionListener() {
 
@@ -83,7 +83,7 @@ public class Login extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 if(show_hide==false){
                     password.setEchoChar((char)0);
-                    Icon current=new ImageIcon("/Users/eslimranaemiroglu/Desktop/hide.png");
+                    Icon current=new ImageIcon("images/hide.png");
                     show.setIcon(current);
                 }
                 else{
@@ -131,7 +131,7 @@ public class Login extends JPanel{
     public void paintComponent(Graphics g){
         BufferedImage myPicture=null;
         try {
-            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/success.png"));
+            myPicture = ImageIO.read(new File("images/success.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

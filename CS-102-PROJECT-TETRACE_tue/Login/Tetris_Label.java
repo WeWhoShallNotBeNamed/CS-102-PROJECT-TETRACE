@@ -152,6 +152,7 @@ public class Tetris_Label extends JLabel {
 
                 if(hasBlock) {
                     linesCleared++;
+                    user.increaseScore(500);
                 }
                 else{
                     board[i+linesCleared] = board[i];
@@ -279,6 +280,21 @@ public class Tetris_Label extends JLabel {
         }
         else return null;
     }
+
+    public void setBoard(int[][] arr){
+        currentMainBoard = arr;
+    }
+
+    public int[][] getBoard(){
+        return currentMainBoard;
+    }
+
+    public void blockMaker() {
+    }
+
+    public void blockBack(){
+    }
+    
 
     public int canRotate(int direction) {
         int result = currentFigure.canRotate(currentMainBoard, direction);

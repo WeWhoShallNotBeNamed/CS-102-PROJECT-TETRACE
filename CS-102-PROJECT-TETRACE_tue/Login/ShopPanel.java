@@ -7,33 +7,38 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class ShopPanel extends JPanel{
-    private Image background;
+    
+    private JLabel blackOut;
+    private JLabel cutBack;
+    private JLabel screenSwap;
 
-    private Image blackOut;
-    private Image cutBack;
-    private Image screenSwap;
+    private Icon howToPlay;
 
-    private Image howToPlay;
-
-    private Image powerUpTitle;
+    private JLabel powerUpTitle;
+    private JLabel diamonds;
+    private JLabel money;
 
     //private Image diamond;
 
-    private Image purchase;
-    private Image home;
-    private Image settings;
+    private Icon purchase;
+    private Icon home;
+    private Icon settings;
 
     private JButton purchaseButton1;
     private JButton purchaseButton2;
     private JButton purchaseButton3;
-    private JButton purchaseButton4;
-    private JButton purchaseButton5;
 
     private JButton homeButton;
     private JButton settingsButton;
@@ -42,60 +47,73 @@ public class ShopPanel extends JPanel{
 
 
     public ShopPanel(User u){
-        
         user=u;
+        money=new JLabel(""+user.diamonds);
+       
         setLayout( null );
         setImages();
         setButtons();
+        updatePage();
     }
     
     public void setImages(){
         try
         {
-            background = ImageIO.read( new File( "images/storeBack.png" ) );
-            powerUpTitle = ImageIO.read(new File("images/powerUPTitle.png"));
-            blackOut = ImageIO.read( new File( "images/blackOut.png" ) );
-            cutBack = ImageIO.read( new File( "images/cutBack.png" ) );
-            screenSwap = ImageIO.read( new File( "images/screenSwap.png" ) );
-            purchase = ImageIO.read( new File( "images/purchase.png" ) );
-            home = ImageIO.read( new File( "images/home.png" ) );
-            settings = ImageIO.read( new File( "images/setting.png" ) );
-            powerUpTitle = ImageIO.read( new File( "images/powerUpTitle.png" ) );
-            //diamond = ImageIO.read(new File("images/diamond.png"));
-            howToPlay = ImageIO.read(new File("images/howToPlay.png"));
+            BufferedImage icon=ImageIO.read( new File( "images/powerUpTitle.png" ) );
+            powerUpTitle = new JLabel(new ImageIcon(icon));
+            BufferedImage icon1=ImageIO.read( new File( "images/blackOut.png" ) );
+            blackOut=new JLabel(new ImageIcon(icon1));
+            BufferedImage icon2=ImageIO.read( new File( "images/cutBack.png" ) );
+            cutBack=new JLabel(new ImageIcon(icon2));
+            BufferedImage icon3=ImageIO.read( new File( "images/screenSwap.png" ) );
+            screenSwap=new JLabel(new ImageIcon(icon3));
+            purchase = new ImageIcon("images/purchase.png" );
+            home = new ImageIcon( "images/home.png" ) ;
+            settings = new ImageIcon( "images/settings.png"  );
+            BufferedImage icon4=ImageIO.read( new File( "images/diamond.png" ) );
+            diamonds=new JLabel(new ImageIcon(icon4));
+            howToPlay = new ImageIcon("images/howToPlay.png");
         }
         catch( IOException exception ){}
     }
     
  
     public void setButtons(){
-        purchaseButton1 = new JButton( new ImageIcon( purchase.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
-        purchaseButton2 = new JButton( new ImageIcon( purchase.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
-        purchaseButton3 = new JButton( new ImageIcon( purchase.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
-        purchaseButton4 = new JButton( new ImageIcon( purchase.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
-        purchaseButton5 = new JButton( new ImageIcon( purchase.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
+        purchaseButton1 = new JButton(  purchase);
+        purchaseButton2 = new JButton( purchase);
+        purchaseButton3 = new JButton( purchase );
 
-        homeButton = new JButton( new ImageIcon( home.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
-        settingsButton = new JButton( new ImageIcon( settings.getScaledInstance( 50, 50, BufferedImage.TYPE_INT_ARGB ) ) );
-        howToPlayButton = new JButton( new ImageIcon( howToPlay.getScaledInstance( 150, 100, BufferedImage.TYPE_INT_ARGB ) ) );
+        homeButton = new JButton( home  );
+        settingsButton = new JButton( settings );
+        howToPlayButton = new JButton( howToPlay );
         
+
+
+        powerUpTitle.setBounds(480, 200, 450, 170);
+        homeButton.setBounds( 1200, 600, 50, 50 );
+        settingsButton.setBounds( 1200, 650, 50, 50 );
+        howToPlayButton.setBounds( 1200, 700, 50, 50 );
+        purchaseButton1.setBounds( 500, 465, 100, 50 );
+        purchaseButton2.setBounds( 650, 465, 100, 50 );
+        purchaseButton3.setBounds( 800, 465, 100, 50 );
         
-        homeButton.setBounds( 150, 250, 50, 50 );
-        settingsButton.setBounds( 75, 250, 50, 50 );
-        howToPlayButton.setBounds( 20, 20, 50, 50 );
-        purchaseButton1.setBounds( 375, 465, 150, 50 );
-        purchaseButton2.setBounds( 375, 465, 150, 50 );
-        purchaseButton3.setBounds( 375, 465, 150, 50 );
-        purchaseButton4.setBounds( 375, 465, 150, 50 );
-        purchaseButton5.setBounds( 375, 465, 150, 50 );
-        
-        // homeButton.addActionListener( new HomeListener() );
-        // settingsButton.addActionListener( new SettingsListener() );
-        // howToPlayButton.addActionListener( new howToPlayListener() );
         purchaseButton1.addActionListener( new Purchase1Listener());
         purchaseButton2.addActionListener( new Purchase2Listener());
         purchaseButton3.addActionListener( new Purchase3Listener());
         
+        blackOut.setBounds(530, 400, 40, 40);
+        screenSwap.setBounds(680, 400, 40, 40);
+        cutBack.setBounds(830, 400, 40, 40);
+
+        diamonds.setBounds(150, 100, 50, 50);
+        money.setBounds(200, 100, 50, 50);
+
+        add(money);
+        add(diamonds);
+        add(blackOut);
+        add(cutBack);
+        add(screenSwap);
+        add(powerUpTitle);
         add( homeButton );
         add( settingsButton );
         add( howToPlayButton );
@@ -110,7 +128,7 @@ public class ShopPanel extends JPanel{
     public JButton getSettingsButton(){
         return homeButton;
     }
-    public JButton getHowToPlayutton(){
+    public JButton getHowToPlayButton(){
         return homeButton;
     }
 
@@ -123,6 +141,8 @@ public class ShopPanel extends JPanel{
                 user.buy(powerUp);
             else 
                 JOptionPane.showMessageDialog(null, "The user doesn't have enough diamonds!");
+            updateUser();
+            updatePage();
         }
     }
     private class Purchase2Listener implements ActionListener{
@@ -133,6 +153,8 @@ public class ShopPanel extends JPanel{
             user.buy(powerUp);
             else 
             JOptionPane.showMessageDialog(null, "The user doesn't have enough diamonds!");
+            updateUser();
+            updatePage();
         }
     }
     private class Purchase3Listener implements ActionListener{
@@ -143,6 +165,45 @@ public class ShopPanel extends JPanel{
             user.buy(powerUp);
             else 
                 JOptionPane.showMessageDialog(null, "The user doesn't have enough diamonds!");
+
+            updateUser();
+            updatePage();
         }
+    }
+    @Override
+    public void paintComponent(Graphics g){
+        BufferedImage myPicture=null;
+        try {
+            myPicture = ImageIO.read(new File("images/bg_game2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        super.paintComponent(g);
+        
+        g.drawImage(myPicture, 0,0,null);
+        
+    }
+    public void updatePage(){
+        money.setText(""+user.diamonds);
+    }
+    public void updateUser(){
+        final String DB_URL="jdbc:mysql://localhost:3306/tetrace";
+                final String USERNAME="root";
+                final String PASSWORD="zeynepasel3";
+                try{
+                    
+                    Connection conn=DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
+                    String sql="update users set bo=?, cb=?, ss=?, money=? where UserName=?";
+                    PreparedStatement preparedStatement=conn.prepareStatement(sql);
+                    preparedStatement.setInt(1,user.bo);
+                    preparedStatement.setInt(2,user.cb);
+                    preparedStatement.setInt(3,user.ss);
+                    preparedStatement.setInt(4,user.diamonds);
+                    preparedStatement.setString(5,""+user.username);
+                    preparedStatement.execute();
+                }
+                catch(Exception ex){
+                    System.out.println(ex);
+                }
     }
 }

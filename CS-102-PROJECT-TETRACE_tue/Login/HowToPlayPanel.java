@@ -1,7 +1,5 @@
 package Login;
 
-
-
 import java.awt.BasicStroke;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -30,11 +28,11 @@ public class HowToPlayPanel extends JPanel{
     public HowToPlayPanel() throws IOException{
        
         setLayout( null );
-        BufferedImage myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/howToPlayExplanation.png"));
+        BufferedImage myPicture = ImageIO.read(new File("images/howToPlayExplanation.png"));
         JLabel picLabel = new JLabel(new ImageIcon(myPicture));
         picLabel.setBounds(200,200,1000,500);
         this.add(picLabel);
-        exit = ImageIO.read( new File( "/Users/eslimranaemiroglu/Desktop/exit.png" ) );
+        exit = ImageIO.read( new File( "images/exit.png" ) );
         addButtons();
     }
 
@@ -50,7 +48,7 @@ public class HowToPlayPanel extends JPanel{
         super.paintComponent(g);
         BufferedImage myPicture=null;
         try {
-            myPicture = ImageIO.read(new File("/Users/eslimranaemiroglu/Desktop/back.png"));
+            myPicture = ImageIO.read(new File("images/back.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,9 @@
 package Login;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -6,13 +11,19 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 
 
 public class Freezing_mode extends JPanel {
 
     private Tetris_Label game1;
-
+    public JButton homebf;
     private Timer freezeTimer;
     private int freezeIndex = 21;
     private Timer timer1;
@@ -27,11 +38,20 @@ public class Freezing_mode extends JPanel {
     User u;
 
     public Freezing_mode (User u) {
+        Icon icon=new ImageIcon("images/home.png");
+        homebf=new JButton(icon);
         this.u=u;
         this.setLayout(null);
+        homebf.setBounds(1200, 750, 50, 50);
+        this.add(homebf);
+
         reset();
 
         this.grabFocus();
+    }
+
+    public JButton gethbf(){
+        return homebf;
     }
 
     private void reset() {
@@ -40,7 +60,7 @@ public class Freezing_mode extends JPanel {
 
         this.currentFrequency1 = STARTING_FREQUENCY;
 
-        this.isActivated = false;
+        this.isActivated=true;
 
         ArrayList<Integer> temp = makeRandomSequence();
 
@@ -81,11 +101,21 @@ public class Freezing_mode extends JPanel {
                 }
                 if(result==-1)
                 {
-                    if(game1.getLastIndex()>=freezeIndex){
+                    //deisik
+                    if(game1.getLastIndex() >= freezeIndex){
                         freezeTimer.restart();
                     }
+
+                    if(game1.isOver()){
+                        deactivateBoards();
+                        u.diamonds=u.diamonds+u.score;
+                        updateScore();
+
+                        JOptionPane.showMessageDialog(null, "your score is"+u.score);
+                    }
+                    else{
                     updateSequences();
-                    updateCurrentFrequency();
+                    updateCurrentFrequency();}
                 }
             }
 
@@ -226,11 +256,6 @@ public class Freezing_mode extends JPanel {
                 }
 
             }
-            else
-            {
-                activateBoards();
-                isActivated = true;
-            }
 
             grabFocus();
 
@@ -276,10 +301,9 @@ public class Freezing_mode extends JPanel {
         }
     }
 
-    private void activateBoards() {
-        timer1.setInitialDelay(0);
-        this.timer1.start();
-        this.freezeTimer.start();
+    private void deactivateBoards() {
+        this.isActivated = false;
+        this.timer1.stop();
     }
 
     private void updateCurrentFrequency(){
@@ -293,5 +317,38 @@ public class Freezing_mode extends JPanel {
         this.timer1.setDelay(currentFrequency1/softDrop);
         timer1.restart();
     }
+    public void updateScore(){
+        final String DB_URL="jdbc:mysql://localhost:3306/tetrace";
+                final String USERNAME="root";
+                final String PASSWORD="zeynepasel3";
+                try{
+                    
+                    Connection conn=DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
+                    String sql="update users set money=? where UserName=?";
+                    PreparedStatement preparedStatement=conn.prepareStatement(sql);
+                    preparedStatement.setString(1,""+u.diamonds);
+                    preparedStatement.setString(2,""+u.username);
+                    preparedStatement.execute();
+                }
+                catch(Exception ex){
+                    System.out.println(ex);
+                }
+    }
+    @Override
+    public void paintComponent(Graphics g){
+        BufferedImage myPicture=null;
+        try {
+           
+            myPicture = ImageIO.read(new File("images.png"));
+            
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        super.paintComponent(g);
+        g.drawImage(myPicture, 0,0,null);
+    }
 }
+
+
 
