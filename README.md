@@ -4,6 +4,6 @@ Tet-race is a Tetris-like game and desktop application that promises its users a
 # HOW TO RUN
 You can run the project on First class.
 # DEPENDENCIES
-BlackOut and CutBack classes extend PowerUp.
-J_Shape, L_Shape, O_Shape, S_Shape, T_Shape and Z_Shape extend Tetrade.
-Oldschool and Story_Label extend Tetris_Label.
+BlackOut and CutBack classes extend PowerUp.  
+J_Shape, L_Shape, O_Shape, S_Shape, T_Shape and Z_Shape extend Tetrade.  
+Oldschool and Story_Label extend Tetris_Label.  
