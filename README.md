@@ -12,8 +12,3 @@ The project relies on inheritance to manage game entities and UI components:
 * **Power-Ups:** `BlackOut` and `CutBack` inherit from the `PowerUp` base class.
 * **Tetrominoes:** `J_Shape`, `L_Shape`, `O_Shape`, `S_Shape`, `T_Shape`, and `Z_Shape` inherit from `Tetrade`.
 * **UI Components:** `Oldschool` and `Story_Label` inherit from `Tetris_Label`.
-
-## How to Run
-Compile the project and execute the entry point class:
-```bash
-java First
