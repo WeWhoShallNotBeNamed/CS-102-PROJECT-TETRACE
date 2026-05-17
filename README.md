@@ -1,58 +1,19 @@
-# CS-102-PROJECT-TETRACE
-# INTRODUCTION
-Tet-race is a Tetris-like game and desktop application that promises its users a fun time while users try to solve the puzzle that the game provides to them. They should be aiming to fill the lines with the blocks without any spaces before the blocks pile up to the ceiling. This game differs from Tetris as while playing, they will encounter many different challenges such as rival interference, time-freezing, screen change, and barriers. They will also be rewarded with many gifts that they can collect throughout the game. After they finish their current level, they will move on to the next level, with different features than the previous level as levels get progressively more challenging. Players can purchase some tools and features with their coins that they will earn after every level up, which will be helpful to win the game. With different mode options, players have the freedom to choose and play which one they like, such as limitless mode, multiplayer mode, and story mode. This game is suitable for people of all ages. 
-# HOW TO RUN
-You can run the project on First class.
-# DEPENDENCIES
-BlackOut and CutBack classes extend PowerUp.
-J_Shape, L_Shape, O_Shape, S_Shape, T_Shape and Z_Shape extend Tetrade.
-Oldschool and Story_Label extend Tetris_Label.
-# CS102 ~ Group Meetings Log page ~
+# CS-102 Project: Tet-Race
 
-Below is a record of our project group meetings. This page will be submitted together with the rest of the repository, in partial fulfillment of the CS102 course requirements.
+Tet-Race is a Java-based desktop puzzle game derived from classic Tetris. Players clear rows by placing falling blocks without leaving empty spaces. The game introduces additional mechanics including power-ups, barriers, grid-shifting, and time-freezing elements. It features an in-game coin economy for purchasing tools, alongside multiple gameplay modes (Story, Limitless, and Multiplayer).
 
-**
-### Meeting ~ (24/04/2022, 2 hours)
-**
-Present: Selin, Rana, Subatay, İpek  _**Absent: Eda
+## Features
+* **Game Modes:** Story Mode (level-based progression), Limitless Mode (endless survival), and Multiplayer Mode.
+* **In-Game Economy:** Leveling up awards coins, which can be spent on utility tools in the shop.
+* **Dynamic Modifiers:** Random obstacles such as screen changes, time-freezes, and barriers.
 
-Discussion: 
-We reviewed progress. We distrubuted our project's workload to who is doing what and who is working on which property. We decided to learn how to use databases.
+## Architecture & Dependencies
+The project relies on inheritance to manage game entities and UI components:
+* **Power-Ups:** `BlackOut` and `CutBack` inherit from the `PowerUp` base class.
+* **Tetrominoes:** `J_Shape`, `L_Shape`, `O_Shape`, `S_Shape`, `T_Shape`, and `Z_Shape` inherit from `Tetrade`.
+* **UI Components:** `Oldschool` and `Story_Label` inherit from `Tetris_Label`.
 
-ToDo: 
-Subatay ->
-•    Tetris game
-•    Multiplayer
-
-Rana ->
-•    Sign up
-•    Login
-
-İpek ->
-•    Power ups
-•    Creative mode
-
-Selin ->
-•    Freezing mode
-•    Story mode
-**
-### Meeting ~ (27.04.2022, 1 hour)
-**
-Present: Rana, İpek, Selin, Subatay   Absent: Eda
-
-Discussion: 
-We looked some Tetris game examples and shared our progresses.
-
-### Meeting ~ (04.05.2022, 1 hour)
-**
-Present: Rana, İpek, Subatay, Selin   Absent: Eda
-
-Discussion: 
-We combined our codes.
-
-### Meeting ~ (09.05.2022, 3 hour)
-**
-Present: Rana, İpek, Selin   Absent: Subatay, Eda
-
-Discussion: 
-We discussed how to present our demo and tried to solve our game's final problems.
+## How to Run
+Compile the project and execute the entry point class:
+```bash
+java First
